@@ -1,3 +1,9 @@
 <resources>
-    <string name="default_button_text">Click me!</string>
+
+
+    <!-- String's for ui component (Buttons, Cards and etc) -->
+    <string name="default_accent_button_text">Get Started</string>
+    <string name="skip_button_text">Skip</string>
+
+
 </resources>
