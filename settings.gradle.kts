@@ -21,5 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "WordsFactory"
 include(":app")
-include(":dictionaryapi")
+include(":dictionary-api")
 include(":database")
+include(":dictionary-uikit")
