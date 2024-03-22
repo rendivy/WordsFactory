@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.keyinc.dictionary_uikit.R
+import com.keyinc.dictionary_uikit.components.rippleEffect.NoRippleTheme
 import com.keyinc.dictionary_uikit.theme.ButtonMedium
 import com.keyinc.dictionary_uikit.theme.InkDark
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
@@ -33,18 +36,20 @@ fun AccentButton(
     onClick: () -> Unit = {},
     text: String = stringResource(id = R.string.default_accent_button_text)
 ) {
-    Button(
-        onClick = onClick, modifier = modifier
-            .fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
-        shape = RoundedCornerShape(PaddingMedium)
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.padding(top = PaddingMedium, bottom = PaddingMedium),
-            style = ButtonMedium,
-            color = Color.White,
-        )
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        Button(
+            onClick = onClick, modifier = modifier
+                .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+            shape = RoundedCornerShape(PaddingMedium)
+        ) {
+            Text(
+                text = text,
+                modifier = Modifier.padding(top = PaddingMedium, bottom = PaddingMedium),
+                style = ButtonMedium,
+                color = Color.White,
+            )
+        }
     }
 }
 
@@ -55,21 +60,23 @@ fun OutlinedAccentButton(
     onClick: () -> Unit = {},
     text: String = stringResource(id = R.string.default_accent_button_text)
 ) {
-    OutlinedButton(
-        onClick = onClick, modifier = modifier
-            .fillMaxWidth()
-            .border(2.dp, PrimaryColor, RoundedCornerShape(PaddingMedium)),
-        colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = Color.Transparent,
-        ),
-        shape = RoundedCornerShape(PaddingMedium)
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.padding(top = PaddingMedium, bottom = PaddingMedium),
-            style = ButtonMedium,
-            color = InkDark,
-        )
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        OutlinedButton(
+            onClick = onClick, modifier = modifier
+                .fillMaxWidth()
+                .border(2.dp, PrimaryColor, RoundedCornerShape(PaddingMedium)),
+            colors = ButtonDefaults.outlinedButtonColors(
+                containerColor = Color.Transparent,
+            ),
+            shape = RoundedCornerShape(PaddingMedium)
+        ) {
+            Text(
+                text = text,
+                modifier = Modifier.padding(top = PaddingMedium, bottom = PaddingMedium),
+                style = ButtonMedium,
+                color = InkDark,
+            )
+        }
     }
 }
 

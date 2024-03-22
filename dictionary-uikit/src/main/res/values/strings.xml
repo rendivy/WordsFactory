@@ -6,4 +6,11 @@
     <string name="skip_button_text">Skip</string>
 
 
+
+
+
+    <!-- Text fields placeHolder -->
+    <string name="password_place_holder">Password</string>
+
+
 </resources>
