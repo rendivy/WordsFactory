@@ -171,7 +171,7 @@ fun PasswordTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun AccentTextFieldPreview() {
+internal fun AccentTextFieldPreview() {
     var password by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -224,7 +224,7 @@ fun AccentTextFieldPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun PasswordTextFieldPreview() {
+internal fun PasswordTextFieldPreview() {
     var password by remember { mutableStateOf("") }
     Column(
         modifier = Modifier

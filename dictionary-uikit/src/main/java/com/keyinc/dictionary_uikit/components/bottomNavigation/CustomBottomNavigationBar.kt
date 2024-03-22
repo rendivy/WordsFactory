@@ -5,26 +5,31 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.keyinc.dictionary_uikit.components.noRippleClickable
 import com.keyinc.dictionary_uikit.theme.InkGray
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
+import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
 
 
@@ -45,12 +50,13 @@ fun CustomBottomNavigationBar() {
 
 @Composable
 fun BottomBar() {
+    val currentRoute= rememberSaveable { mutableStateOf("dictionary") }
     val screens = listOf(
         BottomBarRoutes.Dictionary,
         BottomBarRoutes.Train,
         BottomBarRoutes.Video,
     )
-    NavigationBar(
+    BottomAppBar(
         modifier = Modifier
             .fillMaxWidth()
             .border(
@@ -64,6 +70,7 @@ fun BottomBar() {
         screens.forEach { screen ->
             AddItem(
                 screen = screen,
+                currentRoute = currentRoute,
             )
         }
     }
@@ -72,29 +79,34 @@ fun BottomBar() {
 
 @Composable
 fun RowScope.AddItem(
-    screen: BottomBarRoutes
+    screen: BottomBarRoutes,
+    currentRoute: MutableState<String>,
 ) {
-    NavigationBarItem(
-        interactionSource = NoRippleInteractionSource(),
-        label = {
-            Text(text = screen.title)
-        },
-        icon = {
-            Icon(
-                imageVector = ImageVector.vectorResource(screen.icon),
-                contentDescription = "Navigation icon",
-            )
-        },
-        selected = screen.route == "Dictionary",
-        colors = NavigationBarItemDefaults.colors(
-            unselectedIconColor = InkGray,
-            selectedIconColor = PrimaryColor,
-            unselectedTextColor = InkGray,
-            selectedTextColor = PrimaryColor,
-            indicatorColor = Color.Transparent
-        ),
-        onClick = {
-
-        }
-    )
+    val color = if (currentRoute.value == screen.route) PrimaryColor else InkGray
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .weight(1f)
+            .noRippleClickable {
+                currentRoute.value = screen.route
+            }) {
+        Icon(
+            imageVector = ImageVector.vectorResource(screen.icon),
+            tint = color,
+            contentDescription = "Navigation icon",
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            modifier = Modifier,
+            text = screen.title,
+            color = color,
+            style = ParagraphMedium,
+            textAlign = TextAlign.Center
+        )
+    }
 }
+
+
+
+

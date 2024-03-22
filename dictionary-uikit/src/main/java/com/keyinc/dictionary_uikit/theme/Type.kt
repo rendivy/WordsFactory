@@ -33,10 +33,10 @@ val ButtonMedium = TextStyle(
 
 val ParagraphMedium =  TextStyle(
     fontFamily = FontFamily(
-        Font(R.font.rubik_medium)
+        Font(R.font.rubick_regular)
     ),
     color = InkDarkGray,
-    fontWeight = FontWeight.Medium,
+    fontWeight = FontWeight.Normal,
     fontSize = SmallFontSize
 )
 
