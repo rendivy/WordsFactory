@@ -5,6 +5,12 @@
       <entry key="AccentButton">
         <State />
       </entry>
+      <entry key="AccentTextField">
+        <State />
+      </entry>
+      <entry key="AccentTextFieldPreview">
+        <State />
+      </entry>
       <entry key="CustomTextButtonPreview">
         <State />
       </entry>

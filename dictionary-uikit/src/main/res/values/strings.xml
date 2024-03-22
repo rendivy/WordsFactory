@@ -6,4 +6,15 @@
     <string name="skip_button_text">Skip</string>
 
 
+
+
+
+    <!-- Text fields placeHolder -->
+    <string name="password_place_holder">Password</string>
+    <string name="email_place_holder">Email</string>
+    <string name="phone_place_holder">Phone</string>
+    <string name="name_place_holder">Name</string>
+    <string name="search_place_holder">Search</string>
+
+
 </resources>

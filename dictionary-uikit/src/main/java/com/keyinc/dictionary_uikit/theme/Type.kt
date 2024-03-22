@@ -1,6 +1,9 @@
 package com.keyinc.dictionary_uikit.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key.Companion.I
+import androidx.compose.ui.text.Paragraph
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -26,6 +29,15 @@ val ButtonMedium = TextStyle(
     ),
     fontWeight = FontWeight.Medium,
     fontSize = MediumFontSize
+)
+
+val ParagraphMedium =  TextStyle(
+    fontFamily = FontFamily(
+        Font(R.font.rubik_medium)
+    ),
+    color = InkDarkGray,
+    fontWeight = FontWeight.Medium,
+    fontSize = SmallFontSize
 )
 
 val ButtonSmall = TextStyle(
