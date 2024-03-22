@@ -2,9 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AccentTextField">
-        <State />
-      </entry>
       <entry key="AccentTextFieldPreview">
         <State />
       </entry>
@@ -12,6 +9,9 @@
         <State />
       </entry>
       <entry key="CustomTextButtonPreview">
+        <State />
+      </entry>
+      <entry key="MeaningCardPreview">
         <State />
       </entry>
       <entry key="SearchTextFieldPreview">
