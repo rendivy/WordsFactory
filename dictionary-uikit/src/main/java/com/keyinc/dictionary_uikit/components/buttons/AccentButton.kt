@@ -45,7 +45,7 @@ fun AccentButton(
         ) {
             Text(
                 text = text,
-                modifier = Modifier.padding(top = PaddingMedium, bottom = PaddingMedium),
+                modifier = Modifier.padding(top = 12.dp, bottom = 12.dp),
                 style = ButtonMedium,
                 color = Color.White,
             )

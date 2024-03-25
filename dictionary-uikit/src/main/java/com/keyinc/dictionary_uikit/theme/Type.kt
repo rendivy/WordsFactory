@@ -22,13 +22,20 @@ val Typography = Typography(
     )
 )
 
+val Heading1 = TextStyle(
+    fontFamily = FontFamily(
+        Font(R.font.rubik_medium)
+    ),
+    fontWeight = FontWeight.Medium,
+    fontSize = LargeFontSize
+)
 
 val ButtonMedium = TextStyle(
     fontFamily = FontFamily(
         Font(R.font.rubik_medium)
     ),
     fontWeight = FontWeight.Medium,
-    fontSize = MediumFontSize
+    fontSize = 14.sp
 )
 
 val ParagraphMedium =  TextStyle(
