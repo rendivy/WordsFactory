@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation(project(":feature:auth-feature"))
     implementation(project(":feature:splash-feature"))
+    implementation(project(":core"))
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.androidx.core.ktx)
