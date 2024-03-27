@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import ru.yangel.auth_feature.presentation.navigation.authGraph
+import ru.yangel.auth_feature.presentation.navigation.navigateToLogin
 import ru.yangel.auth_feature.presentation.navigation.navigateToRegistration
 import ru.yangel.splash_feature.presentation.navigation.SPLASH_ROUTE
 import ru.yangel.splash_feature.presentation.navigation.splashGraph
@@ -14,7 +15,7 @@ fun NavigationGraph(startDestination: String = SPLASH_ROUTE) {
     NavHost(navController = navController, startDestination = startDestination) {
         splashGraph(
             onNavigateToRegistration = { navController.navigateToRegistration() },
-            onNavigateToLogin = { navController.navigateToRegistration() }
+            onNavigateToLogin = { navController.navigateToLogin() }
         )
         authGraph()
     }

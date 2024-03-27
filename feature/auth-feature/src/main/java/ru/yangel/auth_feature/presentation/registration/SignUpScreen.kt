@@ -6,9 +6,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,13 +44,14 @@ internal fun SignUpScreen(viewModel: SignUpViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(PaddingMedium),
+            .padding(PaddingMedium)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(R.drawable.ic_login),
-            modifier = Modifier.padding(PaddingMedium),
+            modifier = Modifier.padding(PaddingMedium).aspectRatio(1.2f),
             contentDescription = null
         )
         Text(
