@@ -2,16 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AccentButton">
-        <State />
-      </entry>
-      <entry key="AccentTextField">
-        <State />
-      </entry>
-      <entry key="AccentTextFieldPreview">
+      <entry key="CustomBottomNavigationBar">
         <State />
       </entry>
       <entry key="CustomTextButtonPreview">
+        <State />
+      </entry>
+      <entry key="MeaningCardPreview">
+        <State />
+      </entry>
+      <entry key="SearchTextFieldPreview">
+        <State />
+      </entry>
+      <entry key="SplashScreen">
         <State />
       </entry>
       <entry key="app">

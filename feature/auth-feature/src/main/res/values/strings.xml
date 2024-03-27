@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WordsFactory</string>
+    <string name="sign_up">SignUp</string>
+    <string name="create_account">Create your account</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up_button">Sign Up</string>
+</resources>

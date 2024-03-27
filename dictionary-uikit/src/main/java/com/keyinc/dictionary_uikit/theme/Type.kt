@@ -1,9 +1,6 @@
 package com.keyinc.dictionary_uikit.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key.Companion.I
-import androidx.compose.ui.text.Paragraph
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -22,21 +19,35 @@ val Typography = Typography(
     )
 )
 
+val Heading1 = TextStyle(
+    fontFamily = FontFamily(
+        Font(R.font.rubik_medium)
+    ),
+    fontWeight = FontWeight.Medium,
+    fontSize = LargeFontSize
+)
+
+val Display2 = TextStyle(
+    fontFamily = FontFamily(
+        Font(R.font.rubick_bold)
+    ),
+    fontSize = 40.sp
+)
 
 val ButtonMedium = TextStyle(
     fontFamily = FontFamily(
         Font(R.font.rubik_medium)
     ),
     fontWeight = FontWeight.Medium,
-    fontSize = MediumFontSize
+    fontSize = 14.sp
 )
 
 val ParagraphMedium =  TextStyle(
     fontFamily = FontFamily(
-        Font(R.font.rubik_medium)
+        Font(R.font.rubick_regular)
     ),
     color = InkDarkGray,
-    fontWeight = FontWeight.Medium,
+    fontWeight = FontWeight.Normal,
     fontSize = SmallFontSize
 )
 

@@ -96,59 +96,6 @@ fun AccentTextField(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun AccentTextFieldPreview() {
-    var password by remember { mutableStateOf("") }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        AccentTextField(
-            textFieldValue = password,
-            onValueChange = { password = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            placeHolderValue = stringResource(id = R.string.email_place_holder),
-            visualTransformation = VisualTransformation.None
-        )
-        Spacer(modifier = Modifier.size(16.dp))
-        AccentTextField(
-            textFieldValue = password,
-            onValueChange = { password = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            placeHolderValue = stringResource(id = R.string.name_place_holder),
-            visualTransformation = VisualTransformation.None
-        )
-        Spacer(modifier = Modifier.size(16.dp))
-        AccentTextField(
-            textFieldValue = password,
-            onValueChange = { password = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            placeHolderValue = stringResource(id = R.string.search_place_holder),
-            visualTransformation = VisualTransformation.None
-        )
-        Spacer(modifier = Modifier.size(16.dp))
-        AccentTextField(
-            textFieldValue = password,
-            onValueChange = { password = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            placeHolderValue = stringResource(id = R.string.phone_place_holder),
-            visualTransformation = VisualTransformation.None
-        )
-        Spacer(modifier = Modifier.size(16.dp))
-        PasswordTextField(
-            textFieldValue = password,
-            onValueChange = { password = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
-            placeHolderValue = stringResource(id = R.string.password_place_holder),
-        )
-    }
-}
-
-
 @Composable
 fun PasswordTextField(
     modifier: Modifier = Modifier,
@@ -222,10 +169,62 @@ fun PasswordTextField(
     )
 }
 
+@Preview(showBackground = true)
+@Composable
+internal fun AccentTextFieldPreview() {
+    var password by remember { mutableStateOf("") }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AccentTextField(
+            textFieldValue = password,
+            onValueChange = { password = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            placeHolderValue = stringResource(id = R.string.email_place_holder),
+            visualTransformation = VisualTransformation.None
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+        AccentTextField(
+            textFieldValue = password,
+            onValueChange = { password = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            placeHolderValue = stringResource(id = R.string.name_place_holder),
+            visualTransformation = VisualTransformation.None
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+        AccentTextField(
+            textFieldValue = password,
+            onValueChange = { password = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            placeHolderValue = stringResource(id = R.string.search_place_holder),
+            visualTransformation = VisualTransformation.None
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+        AccentTextField(
+            textFieldValue = password,
+            onValueChange = { password = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            placeHolderValue = stringResource(id = R.string.phone_place_holder),
+            visualTransformation = VisualTransformation.None
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+        PasswordTextField(
+            textFieldValue = password,
+            onValueChange = { password = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
+            placeHolderValue = stringResource(id = R.string.password_place_holder),
+        )
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
-fun PasswordTextFieldPreview() {
+internal fun PasswordTextFieldPreview() {
     var password by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
