@@ -1,0 +1,20 @@
+<resources>
+
+
+    <!-- String's for ui component (Buttons, Cards and etc) -->
+    <string name="default_accent_button_text">Get Started</string>
+    <string name="skip_button_text">Skip</string>
+    <string name="meaning_place_holder">The practice or skill of preparing food by combining, mixing, and heating ingredients.</string>
+    <string name="example_place_holder">he developed an interest in cooking</string>
+    <string name="example">Example:\u0020</string>
+
+
+    <!-- Text fields placeHolder -->
+    <string name="password_place_holder">Password</string>
+    <string name="email_place_holder">Email</string>
+    <string name="phone_place_holder">Phone</string>
+    <string name="name_place_holder">Name</string>
+    <string name="search_place_holder">Search</string>
+
+
+</resources>

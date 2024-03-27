@@ -1,6 +1,9 @@
 [versions]
-agp = "8.3.0"
+agp = "8.3.1"
+dagger = "2.48"
 converterGson = "2.9.0"
+hiltAndroid = "2.48"
+hiltAndroidCompiler = "2.48"
 kotlin = "1.9.22"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -9,7 +12,9 @@ espressoCore = "3.5.1"
 kotlinxSerializationJson = "1.6.3"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
-composeBom = "2024.02.02"
+composeBom = "2024.03.00"
+dataStoreVersion = "1.0.0"
+navigationCompose = "2.7.7"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
 kotlin-coroutines = "1.8.0"
@@ -17,15 +22,19 @@ retrofitAdaptersResult = "1.0.9"
 appcompat = "1.6.1"
 material = "1.11.0"
 room = "2.6.1"
-ksp = "1.9.22-1.0.17"
+ksp = "1.9.22-1.0.18"
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+data-store = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStoreVersion" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -51,6 +60,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
