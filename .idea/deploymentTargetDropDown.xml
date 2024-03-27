@@ -2,9 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AccentTextFieldPreview">
-        <State />
-      </entry>
       <entry key="CustomBottomNavigationBar">
         <State />
       </entry>
@@ -15,6 +12,9 @@
         <State />
       </entry>
       <entry key="SearchTextFieldPreview">
+        <State />
+      </entry>
+      <entry key="SplashScreen">
         <State />
       </entry>
       <entry key="app">
