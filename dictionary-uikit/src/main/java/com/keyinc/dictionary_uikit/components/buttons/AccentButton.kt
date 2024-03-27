@@ -36,21 +36,21 @@ fun AccentButton(
     onClick: () -> Unit = {},
     text: String = stringResource(id = R.string.default_accent_button_text)
 ) {
-    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
-        Button(
-            onClick = onClick, modifier = modifier
-                .fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
-            shape = RoundedCornerShape(PaddingMedium)
-        ) {
-            Text(
-                text = text,
-                modifier = Modifier.padding(top = 12.dp, bottom = 12.dp),
-                style = ButtonMedium,
-                color = Color.White,
-            )
-        }
+
+    Button(
+        onClick = onClick, modifier = modifier
+            .fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+        shape = RoundedCornerShape(PaddingMedium)
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(top = 12.dp, bottom = 12.dp),
+            style = ButtonMedium,
+            color = Color.White,
+        )
     }
+
 }
 
 
