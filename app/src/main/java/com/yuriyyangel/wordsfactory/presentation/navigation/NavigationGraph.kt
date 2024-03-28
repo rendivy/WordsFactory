@@ -1,6 +1,9 @@
 package com.yuriyyangel.wordsfactory.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import ru.yangel.auth_feature.presentation.navigation.authGraph
@@ -14,9 +17,19 @@ fun NavigationGraph(startDestination: String = SPLASH_ROUTE) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = startDestination) {
         splashGraph(
-            onNavigateToRegistration = { navController.navigateToRegistration() },
-            onNavigateToLogin = { navController.navigateToLogin() }
+            onNavigateToRegistration = {
+                navController.navigateToRegistration(
+                    clearBackStack = true, popBackStackRoute = SPLASH_ROUTE
+                )
+            },
+            onNavigateToLogin = {
+                navController.navigateToLogin(
+                    clearBackStack = true, popBackStackRoute = SPLASH_ROUTE
+                )
+            }
         )
         authGraph()
     }
 }
+
+

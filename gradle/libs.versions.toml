@@ -23,6 +23,10 @@ appcompat = "1.6.1"
 material = "1.11.0"
 room = "2.6.1"
 ksp = "1.9.22-1.0.18"
+googleServices = "4.4.1"
+firebaseAuth = "22.3.1"
+playServicesAuth = "21.0.0"
+googleGmsGoogleServices = "4.4.1"
 
 
 [libraries]
@@ -58,6 +62,9 @@ koltinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 retrofit-adapters-result = { module = "com.github.skydoves:retrofit-adapters-result", version.ref = "retrofitAdaptersResult" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 
 [plugins]
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
@@ -67,4 +74,5 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

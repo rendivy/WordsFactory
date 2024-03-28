@@ -9,9 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import com.keyinc.dictionary_uikit.theme.ErrorColor
-import com.keyinc.dictionary_uikit.theme.Heading1
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 
@@ -24,7 +22,7 @@ fun SnackBar(message: String) {
             .padding(PaddingMedium)
             .clip(shape = RoundedCornerShape(PaddingMedium))
     ) {
-        Row(Modifier.clip(shape = RoundedCornerShape(PaddingMedium))) {
+        Row {
             Text(
                 text = message,
                 style = ParagraphMedium,

@@ -1,7 +1,7 @@
 package ru.yangel.auth_feature.presentation.login.screen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,19 +16,20 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.keyinc.dictionary_uikit.components.buttons.AccentButton
-import com.keyinc.dictionary_uikit.components.buttons.OutlinedAccentButton
+import com.keyinc.dictionary_uikit.components.buttons.OutlinedAccentButtonWithIcon
 import com.keyinc.dictionary_uikit.components.snackbar.SnackBar
 import com.keyinc.dictionary_uikit.components.textfield.AccentTextField
 import com.keyinc.dictionary_uikit.components.textfield.PasswordTextField
@@ -49,12 +50,14 @@ fun SignInScreen() {
 internal fun SignInScreen(viewModel: SignInViewModel) {
     val signUpState by viewModel.signInState.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val focusManager = LocalFocusManager.current
+    val snackBarHostState = remember { SnackbarHostState() }
+    val snackBarMessage = stringResource(id = R.string.snackbar_error)
     Scaffold(
         snackbarHost = {
             SnackbarHost(
-                hostState = snackbarHostState,
-                snackbar = { SnackBar(message = "Please, check correctness of your credentials") }
+                hostState = snackBarHostState,
+                snackbar = { SnackBar(message = it.visuals.message) }
             )
         },
     ) {
@@ -62,6 +65,10 @@ internal fun SignInScreen(viewModel: SignInViewModel) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        focusManager.clearFocus()
+                    })}
                 .padding(PaddingMedium)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
@@ -103,7 +110,7 @@ internal fun SignInScreen(viewModel: SignInViewModel) {
                     viewModel.loginUser()
                     scope.launch {
                         if (signUpState.isEmailValid == false) {
-                            snackbarHostState.showSnackbar("Invalid email")
+                            snackBarHostState.showSnackbar(snackBarMessage)
                         }
 
                     }
@@ -114,10 +121,15 @@ internal fun SignInScreen(viewModel: SignInViewModel) {
                 modifier = Modifier.padding(PaddingMedium),
                 style = ParagraphMedium
             )
-            OutlinedAccentButton(text = "Continue with Google")
-            OutlinedAccentButton(
+            OutlinedAccentButtonWithIcon(
+                text = stringResource(id = R.string.with_google),
+                onClick = { viewModel.loginWithGoogle() },
+                painter = painterResource(id = R.drawable.google_plus)
+            )
+            OutlinedAccentButtonWithIcon(
                 modifier = Modifier.padding(top = 16.dp),
-                text = "Continue with Facebook"
+                text = stringResource(id = R.string.with_facebook),
+                painter = painterResource(id = R.drawable.facebook)
             )
         }
 

@@ -2,9 +2,12 @@ package ru.yangel.auth_feature.presentation.registration
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import ru.yangel.auth_data.storage.repository.AuthRepository
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationState
 import javax.inject.Inject
@@ -30,8 +33,12 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
     }
 
     fun onSignUpClick() {
-        authRepository.registerUser()
-        Log.d("SignUpViewModel", authRepository.toString())
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.registerUser(
+                email = _signUpState.value.email,
+                password = _signUpState.value.password
+            )
+        }
     }
 
 }

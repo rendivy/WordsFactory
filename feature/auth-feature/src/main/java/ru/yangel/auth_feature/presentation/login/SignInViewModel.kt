@@ -1,9 +1,11 @@
 package ru.yangel.auth_feature.presentation.login
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import ru.yangel.auth_data.storage.repository.AuthRepository
 import ru.yangel.auth_feature.presentation.login.state.LoginState
 import ru.yangel.core.usecase.ValidateEmailUseCase
@@ -33,6 +35,12 @@ class SignInViewModel @Inject constructor(
             }
         }
         authRepository.loginUser()
+    }
+
+    fun loginWithGoogle() {
+        viewModelScope.launch {
+            authRepository.signInWithGoogle()
+        }
     }
 
     fun onEmailChange(email: String) {
