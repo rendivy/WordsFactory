@@ -6,12 +6,11 @@ import android.content.IntentSender
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
-import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.tasks.await
+import ru.yangel.core.customexception.AuthException
 import kotlin.coroutines.cancellation.CancellationException
 
 
@@ -38,7 +37,16 @@ class GoogleAuthClient(
 
 
     suspend fun signInWithEmailAndPassword(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password).await()
+        try {
+            auth.signInWithEmailAndPassword(email, password).await()
+        }
+        catch (e: FirebaseAuthException) {
+            throw AuthException("Auth failed")
+        }
+        catch (e: Exception) {
+            throw e
+        }
+
     }
 
 

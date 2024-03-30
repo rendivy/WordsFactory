@@ -18,6 +18,7 @@ import ru.yangel.auth_data.storage.repository.AuthRepository
 import ru.yangel.auth_feature.presentation.login.state.LoginError
 import ru.yangel.auth_feature.presentation.login.state.LoginState
 import ru.yangel.auth_feature.presentation.login.state.LoginUiState
+import ru.yangel.core.customexception.AuthException
 import ru.yangel.core.usecase.ValidateEmailUseCase
 import ru.yangel.core.validation.ValidateEmailUseCase
 import javax.inject.Inject
@@ -39,7 +40,7 @@ class SignInViewModel @Inject constructor(
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         when (exception) {
-            is FirebaseAuthException -> {
+            is AuthException -> {
                 _loginState.value = LoginState.Error(LoginError.NETWORK_ERROR)
             }
 

@@ -60,7 +60,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.material)
-    implementation(libs.firebase.auth.interop)
     testImplementation(libs.junit)
     kapt(libs.hilt.android.compiler)
     androidTestImplementation(libs.androidx.junit)
