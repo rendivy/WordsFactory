@@ -16,9 +16,9 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -37,9 +37,9 @@ import com.keyinc.dictionary_uikit.theme.Heading1
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
-import kotlinx.coroutines.launch
 import ru.yangel.auth_feature.R
 import ru.yangel.auth_feature.presentation.login.SignInViewModel
+import ru.yangel.auth_feature.presentation.login.state.LoginState
 
 @Composable
 fun SignInScreen() {
@@ -48,11 +48,24 @@ fun SignInScreen() {
 
 @Composable
 internal fun SignInScreen(viewModel: SignInViewModel) {
-    val signUpState by viewModel.signInState.collectAsStateWithLifecycle()
-    val scope = rememberCoroutineScope()
+
+    val loginUiState by viewModel.loginUiState.collectAsStateWithLifecycle()
+    val loginState by viewModel.loginState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
     val snackBarHostState = remember { SnackbarHostState() }
     val snackBarMessage = stringResource(id = R.string.snackbar_error)
+
+    LaunchedEffect(key1 = loginState is LoginState.Error) {
+        snackBarHostState.showSnackbar(snackBarMessage)
+    }
+
+    when (loginState) {
+        is LoginState.Loading -> {}
+        is LoginState.Success -> {}
+        else -> {}
+    }
+
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -68,7 +81,8 @@ internal fun SignInScreen(viewModel: SignInViewModel) {
                 .pointerInput(Unit) {
                     detectTapGestures(onTap = {
                         focusManager.clearFocus()
-                    })}
+                    })
+                }
                 .padding(PaddingMedium)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
@@ -94,27 +108,19 @@ internal fun SignInScreen(viewModel: SignInViewModel) {
             Spacer(modifier = Modifier.height(PaddingMedium))
             AccentTextField(
                 placeHolderValue = stringResource(id = R.string.email),
-                textFieldValue = signUpState.email,
+                textFieldValue = loginUiState.email,
                 onValueChange = viewModel::onEmailChange
             )
             Spacer(modifier = Modifier.height(PaddingMedium))
             PasswordTextField(
                 placeHolderValue = stringResource(id = R.string.password),
-                textFieldValue = signUpState.password,
+                textFieldValue = loginUiState.password,
                 onValueChange = viewModel::onPasswordChange
             )
             Spacer(modifier = Modifier.height(PaddingMedium))
             AccentButton(
                 text = stringResource(id = R.string.sign_in_button),
-                onClick = {
-                    viewModel.loginUser()
-                    scope.launch {
-                        if (signUpState.isEmailValid == false) {
-                            snackBarHostState.showSnackbar(snackBarMessage)
-                        }
-
-                    }
-                },
+                onClick = { viewModel.loginUser() },
             )
             Text(
                 text = stringResource(id = R.string.or),
@@ -123,7 +129,7 @@ internal fun SignInScreen(viewModel: SignInViewModel) {
             )
             OutlinedAccentButtonWithIcon(
                 text = stringResource(id = R.string.with_google),
-                onClick = { viewModel.loginWithGoogle() },
+                onClick = {},
                 painter = painterResource(id = R.drawable.google_plus)
             )
             OutlinedAccentButtonWithIcon(

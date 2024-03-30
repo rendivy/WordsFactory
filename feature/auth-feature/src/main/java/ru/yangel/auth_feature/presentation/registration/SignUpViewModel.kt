@@ -1,5 +1,6 @@
 package ru.yangel.auth_feature.presentation.registration
 
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,6 +32,13 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
     fun onPasswordChange(password: String) {
         _signUpState.value = _signUpState.value.copy(password = password)
     }
+
+    fun onSignUpWithIntent(intent: Intent) {
+        viewModelScope.launch {
+            authRepository.signUpWithIntent(intent)
+        }
+    }
+
 
     fun onSignUpClick() {
         viewModelScope.launch(Dispatchers.IO) {

@@ -1,5 +1,7 @@
 package ru.yangel.auth_data.storage.repository
 
+import android.content.Intent
+import android.content.IntentSender
 import ru.yangel.auth_data.storage.AuthLocalDataSource
 import ru.yangel.auth_data.storage.GoogleAuthClient
 import javax.inject.Inject
@@ -14,12 +16,23 @@ internal class AuthRepositoryImpl @Inject constructor(
         return authLocalDataSource.isUserLogin()
     }
 
-    override suspend fun signInWithGoogle() {
-        googleAuthClient.signIn()
+    override suspend fun signUpWithIntent(intent: Intent) {
+        googleAuthClient.signInWithIntent(intent)
+    }
+
+    override suspend fun signInWithGoogle(): IntentSender? {
+        return googleAuthClient.signIn()
     }
 
     override suspend fun registerUser(email: String, password: String) {
         googleAuthClient.registerUser(
+            email = email,
+            password = password
+        )
+    }
+
+    override suspend fun signInWithEmailAndPassword(email: String, password: String) {
+        googleAuthClient.signInWithEmailAndPassword(
             email = email,
             password = password
         )
