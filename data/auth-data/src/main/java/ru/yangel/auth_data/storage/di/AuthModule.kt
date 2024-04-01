@@ -1,12 +1,14 @@
 package ru.yangel.auth_data.storage.di
 
 import android.content.Context
+import com.google.android.gms.auth.api.identity.Identity
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ru.yangel.auth_data.storage.GoogleAuthClient
 import ru.yangel.auth_data.storage.repository.AuthRepository
 import ru.yangel.auth_data.storage.repository.AuthRepositoryImpl
 import ru.yangel.auth_data.storage.storage.AuthDataStorage
@@ -25,6 +27,15 @@ abstract class AuthModule {
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStorageModule {
+
+
+    @Provides
+    fun provideGoogleAuthService(@ApplicationContext context: Context): GoogleAuthClient {
+        return GoogleAuthClient(
+            context = context,
+            oneTapClient = Identity.getSignInClient(context)
+        )
+    }
 
     @Provides
     @Singleton

@@ -1,13 +1,22 @@
 <resources>
     <string name="app_name">WordsFactory</string>
+
+    <!-- Strings for SignUpScreen -->
     <string name="sign_up">SignUp</string>
     <string name="create_account">Create your account</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="sign_up_button">Sign Up</string>
+    <string name="already_have_an_account">You already with us?</string>
+    <string name="spannable_part">Sign in into your account</string>
 
+    <!-- Strings for SignInScreen -->
     <string name="sign_in_button">Sign In</string>
     <string name="login_account">Log in to your account</string>
     <string name="or">or</string>
+    <string name="with_google">Continue with Google</string>
+    <string name="with_facebook">Continue with Facebook</string>
+    <string name="snackbar_error">Please, check correctness of your credentials</string>
+
 </resources>

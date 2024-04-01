@@ -3,6 +3,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -53,6 +54,7 @@ android {
 
 dependencies {
     implementation(project(":feature:auth-feature"))
+    implementation(project(":feature:dictionary-feature"))
     implementation(project(":feature:splash-feature"))
     implementation(project(":core"))
     implementation(libs.androidx.navigation.compose)
@@ -65,6 +67,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

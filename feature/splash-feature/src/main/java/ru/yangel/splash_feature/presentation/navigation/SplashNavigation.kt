@@ -7,15 +7,14 @@ import ru.yangel.splash_feature.presentation.SplashScreen
 
 const val SPLASH_ROUTE = "splash"
 
-
 fun NavGraphBuilder.splashGraph(
     onNavigateToRegistration: () -> Unit,
-    onNavigateToLogin: () -> Unit
+    onNavigateToHome: () -> Unit
 ) {
     composable(route = SPLASH_ROUTE) {
         SplashScreen(
             onNavigateToRegistration = onNavigateToRegistration,
-            onNavigateToLogin = onNavigateToLogin
+            onNavigateToHome = onNavigateToHome
         )
     }
 

@@ -17,3 +17,5 @@ internal val SmallFontSize = 14.sp
 val PaddingTiny = 4.dp
 val PaddingSmall = 8.dp
 val PaddingMedium = 16.dp
+val PaddingSemiMeduim = 24.dp
+val PaddingLarge = 32.dp

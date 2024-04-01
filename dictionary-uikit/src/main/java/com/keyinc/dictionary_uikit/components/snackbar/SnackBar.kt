@@ -1,6 +1,7 @@
 package com.keyinc.dictionary_uikit.components.snackbar
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Snackbar
@@ -9,9 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import com.keyinc.dictionary_uikit.theme.ErrorColor
-import com.keyinc.dictionary_uikit.theme.Heading1
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 
@@ -24,10 +24,12 @@ fun SnackBar(message: String) {
             .padding(PaddingMedium)
             .clip(shape = RoundedCornerShape(PaddingMedium))
     ) {
-        Row(Modifier.clip(shape = RoundedCornerShape(PaddingMedium))) {
+        Row {
             Text(
                 text = message,
+                modifier = Modifier.fillMaxWidth(),
                 style = ParagraphMedium,
+                textAlign = TextAlign.Center,
                 color = Color.White
             )
         }

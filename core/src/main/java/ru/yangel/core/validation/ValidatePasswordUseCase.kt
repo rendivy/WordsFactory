@@ -1,7 +1,5 @@
 package ru.yangel.core.validation
 
-import javax.inject.Inject
-
 class ValidatePasswordUseCase : BaseUseCase<String, ValidationResult> {
 
     override fun execute(param: String): ValidationResult {
