@@ -18,7 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -42,27 +44,32 @@ import ru.yangel.auth_feature.presentation.login.SignInViewModel
 import ru.yangel.auth_feature.presentation.login.state.LoginState
 
 @Composable
-fun SignInScreen() {
-    SignInScreen(viewModel = hiltViewModel())
+fun SignInScreen(navigateToHome: () -> Unit = {}) {
+    SignInScreen(viewModel = hiltViewModel(), navigateToHome = navigateToHome)
 }
 
 @Composable
-internal fun SignInScreen(viewModel: SignInViewModel) {
+internal fun SignInScreen(viewModel: SignInViewModel, navigateToHome: () -> Unit = {}) {
 
     val loginUiState by viewModel.loginUiState.collectAsStateWithLifecycle()
     val loginState by viewModel.loginState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
     val snackBarHostState = remember { SnackbarHostState() }
+    var snackBarLauncher by remember { mutableStateOf(false) }
     val snackBarMessage = stringResource(id = R.string.snackbar_error)
 
-    LaunchedEffect(key1 = loginState is LoginState.Error) {
-        snackBarHostState.showSnackbar(snackBarMessage)
+    if (snackBarLauncher) {
+        LaunchedEffect(snackBarMessage) {
+            snackBarHostState.showSnackbar(snackBarMessage)
+        }
     }
 
     when (loginState) {
-        is LoginState.Loading -> {}
-        is LoginState.Success -> {}
-        else -> {}
+        is LoginState.Loading -> snackBarLauncher = false
+        is LoginState.Success -> navigateToHome()
+        is LoginState.Error -> snackBarLauncher = true
+        is LoginState.Initial -> snackBarLauncher = false
+
     }
 
 

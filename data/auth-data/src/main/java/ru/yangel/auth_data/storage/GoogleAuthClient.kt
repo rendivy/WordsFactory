@@ -22,6 +22,11 @@ class GoogleAuthClient(
     private val auth = Firebase.auth
 
 
+    fun isUserAlreadyLogin() : Boolean {
+        return auth.currentUser != null
+    }
+
+
     suspend fun signIn(): IntentSender? {
         val result = try {
             oneTapClient.beginSignIn(
@@ -39,11 +44,9 @@ class GoogleAuthClient(
     suspend fun signInWithEmailAndPassword(email: String, password: String) {
         try {
             auth.signInWithEmailAndPassword(email, password).await()
-        }
-        catch (e: FirebaseAuthException) {
+        } catch (e: FirebaseAuthException) {
             throw AuthException("Auth failed")
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             throw e
         }
 

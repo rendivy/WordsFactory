@@ -47,13 +47,16 @@ fun NavController.navigateToLogin(
 
 fun NavGraphBuilder.authGraph(
     onSignUpClicked: () -> Unit = {},
+    onNavigateToHome: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {}
 ) {
     composable(route = REGISTRATION_ROUTE) {
         SignUpScreen(onNavigateToLogin = onNavigateToLogin)
     }
     composable(route = LOGIN_ROUTE) {
-        SignInScreen()
+        SignInScreen(
+            navigateToHome = onNavigateToHome
+        )
     }
 
 }
