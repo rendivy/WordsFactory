@@ -12,7 +12,10 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
+import ru.yangel.core.customexception.AuthCollisionException
 import ru.yangel.core.customexception.AuthException
 import java.util.Locale
 import kotlin.coroutines.cancellation.CancellationException
@@ -58,16 +61,12 @@ class GoogleAuthClient(
 
 
     suspend fun registerUser(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful.not()) {
-                try {
-                    throw task.exception!!
-                } catch (e: FirebaseAuthUserCollisionException) {
-                    throw e
-                } catch (e: Exception) {
-                    throw e
-                }
-            }
+        try {
+            auth.createUserWithEmailAndPassword(email, password).await()
+        } catch (e: FirebaseAuthUserCollisionException) {
+            throw AuthCollisionException("Email already busy")
+        } catch (e: Exception) {
+            throw e
         }
     }
 

@@ -4,8 +4,11 @@ import android.content.Intent
 import android.content.IntentSender
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import ru.yangel.auth_data.storage.AuthLocalDataSource
 import ru.yangel.auth_data.storage.GoogleAuthClient
+import ru.yangel.core.customexception.AuthCollisionException
 import java.lang.Exception
 import javax.inject.Inject
 
