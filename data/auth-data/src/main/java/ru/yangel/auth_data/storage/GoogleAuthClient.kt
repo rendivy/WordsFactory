@@ -3,14 +3,18 @@ package ru.yangel.auth_data.storage
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.util.Log
+import android.widget.Toast
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.tasks.await
 import ru.yangel.core.customexception.AuthException
+import java.util.Locale
 import kotlin.coroutines.cancellation.CancellationException
 
 
@@ -22,7 +26,7 @@ class GoogleAuthClient(
     private val auth = Firebase.auth
 
 
-    fun isUserAlreadyLogin() : Boolean {
+    fun isUserAlreadyLogin(): Boolean {
         return auth.currentUser != null
     }
 
@@ -54,8 +58,19 @@ class GoogleAuthClient(
 
 
     suspend fun registerUser(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful.not()) {
+                try {
+                    throw task.exception!!
+                } catch (e: FirebaseAuthUserCollisionException) {
+                    throw e
+                } catch (e: Exception) {
+                    throw e
+                }
+            }
+        }
     }
+
 
     suspend fun signInWithIntent(intent: Intent): SignInResult {
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)

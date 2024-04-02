@@ -1,7 +1,6 @@
 package ru.yangel.auth_feature.presentation.registration
 
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.yangel.auth_data.storage.repository.AuthRepository
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationState
+import ru.yangel.auth_feature.presentation.registration.state.RegistrationUiState
 import javax.inject.Inject
 
 
@@ -18,33 +18,33 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(private val authRepository: AuthRepository) :
     ViewModel() {
 
-    private val _signUpState = MutableStateFlow(RegistrationState())
-    val signUpState = _signUpState.asStateFlow()
+    private val _registrationUiState = MutableStateFlow(RegistrationUiState())
+    val registrationUiState = _registrationUiState.asStateFlow()
+
+    private val _registrationState = MutableStateFlow(RegistrationState.Initial)
+    val registrationState = _registrationState.asStateFlow()
+
+
 
     fun onNameChange(name: String) {
-        _signUpState.value = _signUpState.value.copy(name = name)
+        _registrationUiState.value = _registrationUiState.value.copy(name = name)
     }
 
     fun onEmailChange(email: String) {
-        _signUpState.value = _signUpState.value.copy(email = email)
+        _registrationUiState.value = _registrationUiState.value.copy(email = email)
     }
 
     fun onPasswordChange(password: String) {
-        _signUpState.value = _signUpState.value.copy(password = password)
+        _registrationUiState.value = _registrationUiState.value.copy(password = password)
     }
 
-    fun onSignUpWithIntent(intent: Intent) {
-        viewModelScope.launch {
-            authRepository.signUpWithIntent(intent)
-        }
-    }
 
 
     fun onSignUpClick() {
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.registerUser(
-                email = _signUpState.value.email,
-                password = _signUpState.value.password
+                email = _registrationUiState.value.email,
+                password = _registrationUiState.value.password
             )
         }
     }

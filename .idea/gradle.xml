@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/dictionary-uikit" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/auth-feature" />
+            <option value="$PROJECT_DIR$/feature/dictionary-feature" />
             <option value="$PROJECT_DIR$/feature/splash-feature" />
           </set>
         </option>
