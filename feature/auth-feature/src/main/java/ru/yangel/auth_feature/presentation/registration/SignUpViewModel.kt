@@ -1,23 +1,18 @@
 package ru.yangel.auth_feature.presentation.registration
 
-import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.yangel.auth_data.storage.repository.AuthRepository
-import ru.yangel.auth_feature.presentation.login.state.LoginError
-import ru.yangel.auth_feature.presentation.login.state.LoginState
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationError
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationState
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationUiState
 import ru.yangel.core.customexception.AuthCollisionException
-import ru.yangel.core.customexception.AuthException
 import javax.inject.Inject
 
 

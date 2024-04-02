@@ -1,7 +1,6 @@
 package ru.yangel.auth_feature.presentation.registration
 
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -43,7 +42,6 @@ import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
 import ru.yangel.auth_feature.R
-import ru.yangel.auth_feature.presentation.login.state.LoginState
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationError
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationState
 
@@ -57,7 +55,6 @@ fun SignUpScreen(onNavigateToLogin: () -> Unit, onNavigateToHome: () -> Unit) {
 internal fun SignUpScreen(viewModel: SignUpViewModel, onNavigateToLogin: () -> Unit, navigateToHome: () -> Unit) {
     val registrationUiState by viewModel.registrationUiState.collectAsStateWithLifecycle()
     val registrationState by viewModel.registrationState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val snackBarHostState = remember { SnackbarHostState() }
     var snackBarLauncher by remember { mutableStateOf(false) }

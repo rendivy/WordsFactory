@@ -59,21 +59,8 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-
     private fun isValidationPassed(): Boolean {
         return emailValidateEmailUseCase.execute(_loginUiState.value.email).isSuccessful
-    }
-
-    fun loginWithGoogle(): Deferred<IntentSender?> {
-        return viewModelScope.async {
-            authRepository.signInWithGoogle()
-        }
-    }
-
-    fun onSignUpWithIntent(intent: Intent) {
-        viewModelScope.launch {
-            authRepository.signUpWithIntent(intent)
-        }
     }
 
     fun onEmailChange(email: String) {
