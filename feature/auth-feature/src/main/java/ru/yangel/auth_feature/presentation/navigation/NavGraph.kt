@@ -51,7 +51,7 @@ fun NavGraphBuilder.authGraph(
     onNavigateToLogin: () -> Unit = {}
 ) {
     composable(route = REGISTRATION_ROUTE) {
-        SignUpScreen(onNavigateToLogin = onNavigateToLogin)
+        SignUpScreen(onNavigateToLogin = onNavigateToLogin, onNavigateToHome)
     }
     composable(route = LOGIN_ROUTE) {
         SignInScreen(
