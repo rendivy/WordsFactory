@@ -1,14 +1,10 @@
 package ru.yangel.auth_feature.presentation.login
 
-import android.content.Intent
-import android.content.IntentSender
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -59,21 +55,8 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-
     private fun isValidationPassed(): Boolean {
         return emailValidateEmailUseCase.execute(_loginUiState.value.email).isSuccessful
-    }
-
-    fun loginWithGoogle(): Deferred<IntentSender?> {
-        return viewModelScope.async {
-            authRepository.signInWithGoogle()
-        }
-    }
-
-    fun onSignUpWithIntent(intent: Intent) {
-        viewModelScope.launch {
-            authRepository.signUpWithIntent(intent)
-        }
     }
 
     fun onEmailChange(email: String) {

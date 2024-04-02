@@ -2,11 +2,8 @@ package ru.yangel.auth_data.storage.repository
 
 import android.content.Intent
 import android.content.IntentSender
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import ru.yangel.auth_data.storage.AuthLocalDataSource
 import ru.yangel.auth_data.storage.GoogleAuthClient
-import java.lang.Exception
 import javax.inject.Inject
 
 
