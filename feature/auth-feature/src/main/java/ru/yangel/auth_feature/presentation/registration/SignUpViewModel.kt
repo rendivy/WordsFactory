@@ -13,18 +13,29 @@ import ru.yangel.auth_feature.presentation.registration.state.RegistrationError
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationState
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationUiState
 import ru.yangel.core.customexception.AuthCollisionException
+import ru.yangel.core.usecase.ValidateEmailUseCase
+import ru.yangel.core.usecase.ValidateNameUseCase
+import ru.yangel.core.usecase.ValidatePasswordUseCase
+import ru.yangel.core.validation.ValidateEmailUseCase
+import ru.yangel.core.validation.ValidateNameUseCase
+import ru.yangel.core.validation.ValidatePasswordUseCase
 import javax.inject.Inject
 
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val authRepository: AuthRepository) :
-    ViewModel() {
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+) : ViewModel() {
 
     private val _registrationUiState = MutableStateFlow(RegistrationUiState())
     val registrationUiState = _registrationUiState.asStateFlow()
 
     private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.Initial)
     val registrationState = _registrationState.asStateFlow()
+
+    private val validatePasswordUseCase: ValidatePasswordUseCase = ValidatePasswordUseCase()
+    private val validateEmailUseCase: ValidateEmailUseCase = ValidateEmailUseCase()
+    private val validateNameUseCase: ValidateNameUseCase = ValidateNameUseCase()
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         when (exception) {
@@ -51,10 +62,9 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
         _registrationUiState.value = _registrationUiState.value.copy(password = password)
     }
 
-
-    fun onSignUpClick() {
+    private fun registerUser() {
+        _registrationState.value = RegistrationState.Loading
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            _registrationState.value = RegistrationState.Loading
             authRepository.registerUser(
                 email = _registrationUiState.value.email,
                 password = _registrationUiState.value.password
@@ -63,4 +73,23 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
         }
     }
 
+
+    private fun isInputValid(): Boolean {
+        val isNameValid = validateNameUseCase.execute(_registrationUiState.value.name).isSuccessful
+        val isEmailValid =
+            validateEmailUseCase.execute(_registrationUiState.value.email).isSuccessful
+        val isPasswordValid =
+            validatePasswordUseCase.execute(_registrationUiState.value.password).isSuccessful
+
+        return isNameValid && isEmailValid && isPasswordValid
+    }
+
+
+    fun onSignUpClick() {
+        _registrationState.value = RegistrationState.Loading
+        when (isInputValid()) {
+            true -> registerUser()
+            false -> _registrationState.value = RegistrationState.Error(RegistrationError.VALIDATION_ERROR)
+        }
+    }
 }
