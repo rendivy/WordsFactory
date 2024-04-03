@@ -1,6 +1,8 @@
 package ru.yangel.core.validation
 
-class ValidateNameUseCase: BaseUseCase<String, ValidationResult> {
+import ru.yangel.core.usecase.ValidateNameUseCase
+
+class ValidateNameUseCaseImpl : ValidateNameUseCase {
 
     override fun execute(param: String): ValidationResult {
         return if (param.isBlank())
@@ -15,3 +17,6 @@ class ValidateNameUseCase: BaseUseCase<String, ValidationResult> {
             )
     }
 }
+
+
+fun ValidateNameUseCase(): ValidateNameUseCase = ValidateNameUseCaseImpl()

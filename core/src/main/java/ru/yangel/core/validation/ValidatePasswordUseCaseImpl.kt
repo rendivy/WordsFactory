@@ -1,9 +1,15 @@
 package ru.yangel.core.validation
 
-class ValidatePasswordUseCase : BaseUseCase<String, ValidationResult> {
+import ru.yangel.core.usecase.ValidatePasswordUseCase
+
+class ValidatePasswordUseCaseImpl : ValidatePasswordUseCase {
+
+    private companion object {
+        private const val MIN_PASSWORD_LENGTH = 6
+    }
 
     override fun execute(param: String): ValidationResult {
-        return if (param.isBlank())
+        return if (param.length < MIN_PASSWORD_LENGTH)
             ValidationResult(
                 isSuccessful = false,
                 errorType = ErrorType.EMAIL_ERROR
@@ -16,3 +22,6 @@ class ValidatePasswordUseCase : BaseUseCase<String, ValidationResult> {
     }
 
 }
+
+
+fun ValidatePasswordUseCase(): ValidatePasswordUseCase = ValidatePasswordUseCaseImpl()
