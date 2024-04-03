@@ -3,6 +3,7 @@ package ru.yangel.auth_feature.presentation.registration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val validatePasswordUseCase: ValidatePasswordUseCase,
+    private val validateEmailUseCase: ValidateEmailUseCase,
+    private val validateNameUseCase: ValidateNameUseCase,
+    private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _registrationUiState = MutableStateFlow(RegistrationUiState())
@@ -33,9 +38,6 @@ class SignUpViewModel @Inject constructor(
     private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.Initial)
     val registrationState = _registrationState.asStateFlow()
 
-    private val validatePasswordUseCase: ValidatePasswordUseCase = ValidatePasswordUseCase()
-    private val validateEmailUseCase: ValidateEmailUseCase = ValidateEmailUseCase()
-    private val validateNameUseCase: ValidateNameUseCase = ValidateNameUseCase()
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         when (exception) {
@@ -89,7 +91,8 @@ class SignUpViewModel @Inject constructor(
         _registrationState.value = RegistrationState.Loading
         when (isInputValid()) {
             true -> registerUser()
-            false -> _registrationState.value = RegistrationState.Error(RegistrationError.VALIDATION_ERROR)
+            false -> _registrationState.value =
+                RegistrationState.Error(RegistrationError.VALIDATION_ERROR)
         }
     }
 }
