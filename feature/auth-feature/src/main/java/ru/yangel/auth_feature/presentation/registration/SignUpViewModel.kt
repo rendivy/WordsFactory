@@ -28,8 +28,7 @@ class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
     private val validateEmailUseCase: ValidateEmailUseCase,
-    private val validateNameUseCase: ValidateNameUseCase,
-    private val ioDispatcher: CoroutineDispatcher
+    private val validateNameUseCase: ValidateNameUseCase
 ) : ViewModel() {
 
     private val _registrationUiState = MutableStateFlow(RegistrationUiState())
