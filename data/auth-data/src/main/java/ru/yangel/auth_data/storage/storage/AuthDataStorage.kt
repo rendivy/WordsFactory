@@ -1,26 +1,37 @@
 package ru.yangel.auth_data.storage.storage
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 
-class AuthDataStorage(context: Context) {
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-    private val sharedPreferences = context.getSharedPreferences("auth_data", Context.MODE_PRIVATE)
+class AuthDataStorage(private val context: Context) {
 
-    private companion object {
-        const val FIELD_IS_USER_LOGIN = "is_user_exists"
+    private val USER_PREFS_KEY = booleanPreferencesKey("is_user_exists")
+
+    fun isOnboardingPassed(): Flow<Boolean> {
+        return context.dataStore.data.map { preferences ->
+            preferences[USER_PREFS_KEY] ?: false
+        }
     }
 
-    fun isUserLogin(): Boolean {
-        return sharedPreferences.getBoolean(FIELD_IS_USER_LOGIN, false)
+    suspend fun setUserLogin(isUserLogin: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[USER_PREFS_KEY] = isUserLogin
+        }
     }
 
-    fun setUserLogin(isUserLogin: Boolean) {
-        sharedPreferences.edit().putBoolean(FIELD_IS_USER_LOGIN, isUserLogin).apply()
-    }
-
-    fun clear() {
-        sharedPreferences.edit().clear().apply()
+    suspend fun clear() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
     }
 
 }

@@ -1,19 +1,21 @@
 package ru.yangel.auth_data.storage
 
+import kotlinx.coroutines.flow.Flow
 import ru.yangel.auth_data.storage.storage.AuthDataStorage
 import javax.inject.Inject
 
 class AuthLocalDataSource @Inject constructor(private val authDataStorage: AuthDataStorage) {
 
-    fun isUserLogin(): Boolean {
-        return authDataStorage.isUserLogin()
+    fun isOnboardingPassed(): Flow<Boolean> {
+        return authDataStorage.isOnboardingPassed()
     }
 
-    fun setUserLogin(isUserLogin: Boolean) {
+    suspend fun setUserLogin(isUserLogin: Boolean) {
         authDataStorage.setUserLogin(isUserLogin)
     }
 
-    fun clear() {
+
+    suspend fun clear() {
         authDataStorage.clear()
     }
 }

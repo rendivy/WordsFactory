@@ -9,11 +9,13 @@ const val SPLASH_ROUTE = "splash"
 
 fun NavGraphBuilder.splashGraph(
     onNavigateToRegistration: () -> Unit,
+    onNavigateToOnboarding: () -> Unit,
     onNavigateToHome: () -> Unit
 ) {
     composable(route = SPLASH_ROUTE) {
         SplashScreen(
             onNavigateToRegistration = onNavigateToRegistration,
+            onNavigateToOnboarding = onNavigateToOnboarding,
             onNavigateToHome = onNavigateToHome
         )
     }

@@ -37,6 +37,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation(libs.hilt.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

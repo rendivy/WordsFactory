@@ -2,6 +2,7 @@ package ru.yangel.auth_data.storage.repository
 
 import android.content.Intent
 import android.content.IntentSender
+import kotlinx.coroutines.flow.Flow
 import ru.yangel.auth_data.storage.AuthLocalDataSource
 import ru.yangel.auth_data.storage.GoogleAuthClient
 import javax.inject.Inject
@@ -14,6 +15,14 @@ internal class AuthRepositoryImpl @Inject constructor(
 
     override fun isUserLogin(): Boolean {
         return googleAuthClient.isUserAlreadyLogin()
+    }
+
+    override fun isOnboardingPassed(): Flow<Boolean> {
+        return authLocalDataSource.isOnboardingPassed()
+    }
+
+    override suspend fun passOnboarding() {
+        authLocalDataSource.clear()
     }
 
     override suspend fun signUpWithIntent(intent: Intent) {
@@ -38,11 +47,11 @@ internal class AuthRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun loginUser() {
+    override suspend fun loginUser() {
         authLocalDataSource.setUserLogin(true)
     }
 
-    override fun logout() {
+    override suspend fun logout() {
         authLocalDataSource.clear()
     }
 
