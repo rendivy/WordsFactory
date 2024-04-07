@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.keyinc.dictionary_uikit.components.bottomNavigation.BottomBar
+import com.keyinc.dictionary_uikit.components.buttons.AccentButton
 import com.keyinc.dictionary_uikit.components.cards.MeaningCard
 import com.keyinc.dictionary_uikit.components.textfield.SearchTextField
 import com.keyinc.dictionary_uikit.theme.Heading1
@@ -34,9 +35,10 @@ import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.PaddingSemiMeduim
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
+import com.keyinc.dictionary_uikit.theme.PrimaryColor
 import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryState
 import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryViewModel
-import ru.yangel.dictionary_data.model.DefinitionDTO
+import ru.yangel.dictionary_data.model.WordDTO
 
 
 @Composable
@@ -73,14 +75,13 @@ fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
             is DictionaryState.Loading -> CircularProgressIndicator()
             is DictionaryState.Success -> {
                 val content = ((dictionaryState.value) as DictionaryState.Success).data
-                WordScreen(
-                    word = content[0].word,
-                    modifier = Modifier.padding(it),
-                    partOfSpeech = content[0].meanings[0].partOfSpeech,
-                    meanings = content[0].meanings[0].definitions
-                )
+                content.forEach { model ->
+                    WordScreen(
+                        word = model,
+                        modifier = Modifier.padding(it),
+                    )
+                }
             }
-
         }
     }
 }
@@ -110,18 +111,15 @@ private fun DictionaryNoWordScreen(
             modifier = Modifier.padding(top = PaddingSmall, bottom = PaddingLarge),
             style = ParagraphMedium
         )
-
     }
 }
 
 
 @Composable
-@Preview(showBackground = true)
 private fun WordScreen(
     modifier: Modifier = Modifier,
-    word: String = "Cooking",
-    partOfSpeech: String = "Noun",
-    meanings: List<DefinitionDTO> = listOf(),
+    onSaveWord: () -> Unit = {},
+    word: WordDTO
 ) {
     LazyColumn(
         modifier = modifier
@@ -131,11 +129,25 @@ private fun WordScreen(
         horizontalAlignment = Alignment.Start
     ) {
         item {
-            Text(
-                text = word.replaceFirstChar { char -> char.titlecaseChar() },
-                style = Heading1,
-                modifier = Modifier.padding(16.dp)
-            )
+            Row(
+                modifier = Modifier
+                    .padding(start = 16.dp, bottom = 16.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    text = word.word.replaceFirstChar { char -> char.titlecaseChar() },
+                    style = Heading1,
+                )
+                Text(
+                    text = word.phonetic.replaceFirstChar { char -> char.titlecaseChar() },
+                    style = ParagraphMedium,
+                    color = PrimaryColor,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+
+            }
 
             Row(
                 modifier = Modifier
@@ -146,7 +158,7 @@ private fun WordScreen(
             ) {
                 Text(text = "Part of Speech:", style = Heading2)
                 Text(
-                    text = partOfSpeech.replaceFirstChar { char -> char.titlecaseChar() },
+                    text = word.meanings[0].partOfSpeech.replaceFirstChar { char -> char.titlecaseChar() },
                     style = ParagraphMedium,
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -157,16 +169,22 @@ private fun WordScreen(
                 modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
             )
         }
-        items(meanings.size) {
-
-            if (meanings[it].definition != null && meanings[it].example != null) {
-                MeaningCard(
-                    meaningText = meanings[it].definition!!,
-                    exampleText = meanings[it].example!!
-                )
+        items(word.meanings.size) { meaningIndex ->
+            word.meanings[meaningIndex].definitions.forEach { definition ->
+                if (definition.definition != null && definition.example != null) {
+                    MeaningCard(
+                        meaningText = definition.definition!!,
+                        exampleText = definition.example!!
+                    )
+                }
             }
-
         }
-
+        item {
+            AccentButton(
+                text = stringResource(id = R.string.add_word),
+                onClick = onSaveWord,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
     }
 }
