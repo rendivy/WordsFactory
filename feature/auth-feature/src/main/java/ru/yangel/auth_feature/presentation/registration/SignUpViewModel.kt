@@ -3,7 +3,6 @@ package ru.yangel.auth_feature.presentation.registration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +16,6 @@ import ru.yangel.core.customexception.AuthCollisionException
 import ru.yangel.core.usecase.ValidateEmailUseCase
 import ru.yangel.core.usecase.ValidateNameUseCase
 import ru.yangel.core.usecase.ValidatePasswordUseCase
-import ru.yangel.core.validation.ValidateEmailUseCase
-import ru.yangel.core.validation.ValidateNameUseCase
-import ru.yangel.core.validation.ValidatePasswordUseCase
 import javax.inject.Inject
 
 

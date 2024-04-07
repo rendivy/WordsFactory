@@ -1,27 +1,22 @@
 package com.yuriyyangel.dictionary_feature
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.keyinc.dictionary_uikit.components.bottomNavigation.BottomBar
 import com.keyinc.dictionary_uikit.components.textfield.SearchTextField
 import com.keyinc.dictionary_uikit.theme.Heading1
@@ -30,14 +25,13 @@ import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.PaddingSemiMeduim
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
+import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryViewModel
 
 
 @Composable
-@Preview(
-    showBackground = true,
-    device = "id:Nexus 4"
-)
-fun DictionaryScreen() {
+@Preview(showBackground = true, device = "id:Nexus 4")
+fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
+    val dictionaryState = viewModel.dictionaryState.collectAsStateWithLifecycle()
     Scaffold(topBar = {
         Column(
             modifier = Modifier
@@ -48,21 +42,26 @@ fun DictionaryScreen() {
                     start = PaddingMedium
                 )
         ) {
-            SearchTextField(modifier = Modifier.fillMaxWidth())
+            SearchTextField(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { viewModel.getWordWithDefinition() }
+            )
         }
-
     },
         bottomBar = {
             BottomBar()
         }) {
         DictionaryNoWordScreen(modifier = Modifier.padding(it))
     }
-
 }
 
 
 @Composable
-private fun DictionaryNoWordScreen(modifier: Modifier = Modifier) {
+private fun DictionaryNoWordScreen(
+    modifier: Modifier = Modifier,
+) {
+
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -70,7 +69,6 @@ private fun DictionaryNoWordScreen(modifier: Modifier = Modifier) {
     ) {
         Image(
             painter = painterResource(id = R.drawable.no_word_ic),
-            modifier = Modifier.weight(1f),
             contentDescription = null,
         )
         Text(

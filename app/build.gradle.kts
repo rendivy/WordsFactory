@@ -21,6 +21,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "DICTIONARY_BASE_API_URL", "\"https://api.dictionaryapi.dev/api/v2/entries/en/\"")
     }
 
     buildTypes {
@@ -40,6 +42,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -56,6 +59,8 @@ dependencies {
     implementation(project(":feature:auth-feature"))
     implementation(project(":feature:dictionary-feature"))
     implementation(project(":feature:splash-feature"))
+    implementation(project(":feature:onboarding-feature"))
+    implementation(project(":dictionary-api"))
     implementation(project(":core"))
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)

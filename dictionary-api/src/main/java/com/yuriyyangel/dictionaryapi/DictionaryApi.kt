@@ -20,8 +20,8 @@ interface DictionaryApi {
     suspend fun getWordDefinition(@Path("word") word: String): Result<List<WordResponseItem>>
 }
 
-fun DictionaryApi(baserUrl: String, okHttpClient: OkHttpClient? = null): DictionaryApi {
-    val retrofit = retrofit(baserUrl, okHttpClient)
+fun DictionaryApi(baserUrl: String): DictionaryApi {
+    val retrofit = retrofit(baserUrl)
     return retrofit.create(DictionaryApi::class.java)
 }
 

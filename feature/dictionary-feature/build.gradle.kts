@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation(project(":dictionary-uikit"))
+    implementation(project(":data:dictionary-data"))
     implementation(project(":core"))
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)

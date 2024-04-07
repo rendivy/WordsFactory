@@ -2,16 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CustomBottomNavigationBar">
-        <State />
-      </entry>
-      <entry key="CustomTextButtonPreview">
-        <State />
-      </entry>
       <entry key="MeaningCardPreview">
         <State />
       </entry>
-      <entry key="SearchTextFieldPreview">
+      <entry key="OnBoardingScreen">
+        <State />
+      </entry>
+      <entry key="OnBoardingScreen (1)">
         <State />
       </entry>
       <entry key="SplashScreen">

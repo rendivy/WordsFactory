@@ -47,7 +47,6 @@ class GoogleAuthClient(private val oneTapClient: SignInClient) {
         } catch (e: Exception) {
             throw e
         }
-
     }
 
 
