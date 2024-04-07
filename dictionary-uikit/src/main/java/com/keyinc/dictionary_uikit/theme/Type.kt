@@ -27,6 +27,14 @@ val Heading1 = TextStyle(
     fontSize = LargeFontSize
 )
 
+val Heading2 = TextStyle(
+    fontFamily = FontFamily(
+        Font(R.font.rubik_medium)
+    ),
+    fontWeight = FontWeight.Medium,
+    fontSize = 20.sp
+)
+
 val Display2 = TextStyle(
     fontFamily = FontFamily(
         Font(R.font.rubick_bold)
@@ -42,7 +50,7 @@ val ButtonMedium = TextStyle(
     fontSize = 14.sp
 )
 
-val ParagraphMedium =  TextStyle(
+val ParagraphMedium = TextStyle(
     fontFamily = FontFamily(
         Font(R.font.rubick_regular)
     ),
