@@ -27,11 +27,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.keyinc.dictionary_uikit.components.buttons.AccentButton
-import com.keyinc.dictionary_uikit.components.buttons.OutlinedAccentButtonWithIcon
 import com.keyinc.dictionary_uikit.components.snackbar.SnackBar
 import com.keyinc.dictionary_uikit.components.textfield.AccentTextField
 import com.keyinc.dictionary_uikit.components.textfield.PasswordTextField
@@ -128,21 +126,6 @@ internal fun SignInScreen(viewModel: SignInViewModel, navigateToHome: () -> Unit
             AccentButton(
                 text = stringResource(id = R.string.sign_in_button),
                 onClick = { viewModel.loginUser() },
-            )
-            Text(
-                text = stringResource(id = R.string.or),
-                modifier = Modifier.padding(PaddingMedium),
-                style = ParagraphMedium
-            )
-            OutlinedAccentButtonWithIcon(
-                text = stringResource(id = R.string.with_google),
-                onClick = {},
-                painter = painterResource(id = R.drawable.google_plus)
-            )
-            OutlinedAccentButtonWithIcon(
-                modifier = Modifier.padding(top = 16.dp),
-                text = stringResource(id = R.string.with_facebook),
-                painter = painterResource(id = R.drawable.facebook)
             )
         }
 

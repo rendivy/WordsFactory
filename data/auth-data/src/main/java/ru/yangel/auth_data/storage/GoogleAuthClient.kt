@@ -47,16 +47,17 @@ class GoogleAuthClient(private val oneTapClient: SignInClient) {
         } catch (e: Exception) {
             throw e
         }
-
     }
 
 
     suspend fun registerUser(email: String, password: String) {
         try {
             auth.createUserWithEmailAndPassword(email, password).await()
-        } catch (e: FirebaseAuthUserCollisionException) {
+        }
+        catch (e: FirebaseAuthUserCollisionException) {
             throw AuthCollisionException("Email already busy")
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             throw e
         }
     }

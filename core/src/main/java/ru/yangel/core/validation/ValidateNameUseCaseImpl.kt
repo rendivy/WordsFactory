@@ -1,6 +1,9 @@
 package ru.yangel.core.validation
 
-class ValidatePasswordUseCase : BaseUseCase<String, ValidationResult> {
+import ru.yangel.core.usecase.ValidateNameUseCase
+import javax.inject.Inject
+
+class ValidateNameUseCaseImpl @Inject constructor(): ValidateNameUseCase {
 
     override fun execute(param: String): ValidationResult {
         return if (param.isBlank())
@@ -14,5 +17,7 @@ class ValidatePasswordUseCase : BaseUseCase<String, ValidationResult> {
                 errorType = null
             )
     }
-
 }
+
+
+fun ValidateNameUseCase(): ValidateNameUseCase = ValidateNameUseCaseImpl()

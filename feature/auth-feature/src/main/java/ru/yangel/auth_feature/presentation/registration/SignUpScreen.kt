@@ -1,6 +1,7 @@
 package ru.yangel.auth_feature.presentation.registration
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -22,6 +23,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,47 +43,68 @@ import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import ru.yangel.auth_feature.R
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationError
 import ru.yangel.auth_feature.presentation.registration.state.RegistrationState
 
 @Composable
 fun SignUpScreen(onNavigateToLogin: () -> Unit, onNavigateToHome: () -> Unit) {
-    SignUpScreen(viewModel = hiltViewModel(), onNavigateToLogin = onNavigateToLogin, navigateToHome = onNavigateToHome)
+    SignUpScreen(
+        viewModel = hiltViewModel(),
+        onNavigateToLogin = onNavigateToLogin,
+        navigateToHome = onNavigateToHome
+    )
 }
 
 
 @Composable
-internal fun SignUpScreen(viewModel: SignUpViewModel, onNavigateToLogin: () -> Unit, navigateToHome: () -> Unit) {
+internal fun SignUpScreen(
+    viewModel: SignUpViewModel,
+    onNavigateToLogin: () -> Unit,
+    navigateToHome: () -> Unit
+) {
     val registrationUiState by viewModel.registrationUiState.collectAsStateWithLifecycle()
     val registrationState by viewModel.registrationState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
     val snackBarHostState = remember { SnackbarHostState() }
     var snackBarLauncher by remember { mutableStateOf(false) }
-    var snackBarMessage = stringResource(id = R.string.snackbar_error)
-
-
-    if (snackBarLauncher) {
-        LaunchedEffect(snackBarMessage) {
-            snackBarHostState.showSnackbar(snackBarMessage)
-        }
-    }
+    var snackBarMessage: String? = null
 
     when (registrationState) {
-        is RegistrationState.Loading -> snackBarLauncher = false
-        is RegistrationState.Success -> navigateToHome()
+        is RegistrationState.Loading -> {
+            snackBarMessage = null
+            snackBarLauncher = false
+        }
+
+        is RegistrationState.Success -> {
+            navigateToHome(); snackBarMessage = null
+        }
+
         is RegistrationState.Error -> {
             val error = (registrationState as RegistrationState.Error).registrationError
             snackBarMessage = when (error) {
-                RegistrationError.NETWORK_ERROR -> "Unexpected error"
-                RegistrationError.EMAIL_ALREADY_BUSY -> "Email already used"
+                RegistrationError.NETWORK_ERROR -> stringResource(id = R.string.unknown_error)
+                RegistrationError.EMAIL_ALREADY_BUSY -> stringResource(id = R.string.email_busy)
+                RegistrationError.VALIDATION_ERROR -> stringResource(id = R.string.validation_error)
             }
             snackBarLauncher = true
         }
-        is RegistrationState.Initial -> snackBarLauncher = false
 
+        is RegistrationState.Initial -> {
+            snackBarLauncher = false; snackBarMessage = null
+        }
     }
 
+    LaunchedEffect(snackBarLauncher) {
+        if (snackBarLauncher && snackBarMessage != null) {
+            snackBarHostState.showSnackbar(snackBarMessage)
+        }
+    }
 
 
     Scaffold(
@@ -160,7 +184,7 @@ internal fun SignUpScreen(viewModel: SignUpViewModel, onNavigateToLogin: () -> U
                     style = ParagraphMedium
                 )
             }
-
         }
     }
 }
+

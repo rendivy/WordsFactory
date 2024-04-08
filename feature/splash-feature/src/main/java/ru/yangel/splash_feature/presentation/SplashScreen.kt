@@ -23,12 +23,14 @@ import ru.yangel.splash_feature.presentation.state.SplashState
 @Composable
 fun SplashScreen(
     onNavigateToRegistration: () -> Unit = {},
-    onNavigateToHome: () -> Unit = {}
+    onNavigateToOnboarding: () -> Unit = {},
+    onNavigateToHome: () -> Unit = {},
 ) {
     SplashScreen(
         viewModel = hiltViewModel(),
         onNavigateToRegistration = onNavigateToRegistration,
-        onNavigateToHome = onNavigateToHome
+        onNavigateToHome = onNavigateToHome,
+        onNavigateToOnboarding = onNavigateToOnboarding,
     )
 }
 
@@ -36,14 +38,16 @@ fun SplashScreen(
 internal fun SplashScreen(
     viewModel: SplashViewModel,
     onNavigateToRegistration: () -> Unit = {},
+    onNavigateToOnboarding: () -> Unit = {},
     onNavigateToHome: () -> Unit = {},
 ) {
     val splashState by viewModel.splashState.collectAsStateWithLifecycle()
 
     when (splashState) {
-        is SplashState.Initial -> viewModel.checkUserLogin()
+        is SplashState.Initial -> viewModel.isOnboardingPassed()
         is SplashState.NotLogin -> onNavigateToRegistration()
         is SplashState.AlreadyLogin -> onNavigateToHome()
+        is SplashState.OnboardingNotPassed -> onNavigateToOnboarding()
     }
 
     Column(

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="learn_anytime">Learn anytime and anywhere</string>
+    <string name="first_onboarding_desc">Quarantine is the perfect time to spend your\nday learning something new, from anywhere!</string>
+    <string name="find_a_course">Find a course for you</string>
+    <string name="improve">Improve your skills</string>
+    <string name="next">Next</string>
+    <string name="start">Let\'s Start</string>
+</resources>
