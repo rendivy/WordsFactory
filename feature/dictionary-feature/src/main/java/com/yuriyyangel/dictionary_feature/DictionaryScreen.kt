@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.keyinc.dictionary_uikit.components.bottomNavigation.BottomBar
 import com.keyinc.dictionary_uikit.components.buttons.AccentButton
 import com.keyinc.dictionary_uikit.components.cards.MeaningCard
 import com.keyinc.dictionary_uikit.components.textfield.SearchTextField
@@ -47,40 +46,38 @@ fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
     val dictionaryState = viewModel.dictionaryState.collectAsStateWithLifecycle()
     val dictionaryUiState by viewModel.dictionaryUiState.collectAsStateWithLifecycle()
 
-    Scaffold(topBar = {
-        Column(
-            modifier = Modifier
-                .background(Color.White)
-                .padding(
-                    top = PaddingSemiMeduim,
-                    bottom = PaddingSemiMeduim,
-                    end = PaddingMedium,
-                    start = PaddingMedium
+    Scaffold(
+        topBar = {
+            Column(
+                modifier = Modifier
+                    .background(Color.White)
+                    .padding(
+                        top = PaddingSemiMeduim,
+                        bottom = PaddingSemiMeduim,
+                        end = PaddingMedium,
+                        start = PaddingMedium
+                    )
+            ) {
+                SearchTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    textFieldValue = dictionaryUiState.word,
+                    onValueChange = { viewModel.onChangeWord(it) },
+                    onClick = { viewModel.getWordWithDefinition() }
                 )
-        ) {
-            SearchTextField(
-                modifier = Modifier.fillMaxWidth(),
-                textFieldValue = dictionaryUiState.word,
-                onValueChange = { viewModel.onChangeWord(it) },
-                onClick = { viewModel.getWordWithDefinition() }
-            )
-        }
-    },
-        bottomBar = {
-            BottomBar()
-        }) {
+            }
+        },
+    ) {
         when (dictionaryState.value) {
             is DictionaryState.Initial -> DictionaryNoWordScreen(modifier = Modifier.padding(it))
             is DictionaryState.Error -> {}
             is DictionaryState.Loading -> CircularProgressIndicator()
             is DictionaryState.Success -> {
                 val content = ((dictionaryState.value) as DictionaryState.Success).data
-                content.forEach { model ->
-                    WordScreen(
-                        word = model,
-                        modifier = Modifier.padding(it),
-                    )
-                }
+
+                WordScreen(
+                    word = content[0],
+                    modifier = Modifier.padding(it),
+                )
             }
         }
     }
@@ -169,15 +166,13 @@ private fun WordScreen(
                 modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
             )
         }
-        items(word.meanings.size) { meaningIndex ->
-            word.meanings[meaningIndex].definitions.forEach { definition ->
-                if (definition.definition != null && definition.example != null) {
-                    MeaningCard(
-                        meaningText = definition.definition!!,
-                        exampleText = definition.example!!
-                    )
-                }
-            }
+        items(word.meanings[0].definitions.size) {
+            if (word.meanings[0].definitions[it].definition != null)
+                MeaningCard(
+                    meaningText = word.meanings[0].definitions[it].definition,
+                    exampleText = word.meanings[0].definitions[it].example
+                )
+
         }
         item {
             AccentButton(
