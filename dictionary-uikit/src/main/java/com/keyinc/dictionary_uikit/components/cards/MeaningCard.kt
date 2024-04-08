@@ -1,7 +1,6 @@
 package com.keyinc.dictionary_uikit.components.cards
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,8 +31,8 @@ import com.keyinc.dictionary_uikit.theme.SecondaryColor
 @Preview(showBackground = true)
 fun MeaningCard(
     modifier: Modifier = Modifier,
-    meaningText: String = stringResource(id = R.string.meaning_place_holder),
-    exampleText: String = stringResource(id = R.string.example_place_holder)
+    meaningText: String? = stringResource(id = R.string.meaning_place_holder),
+    exampleText: String? = stringResource(id = R.string.example_place_holder)
 ) {
 
     val exampleTextAnnotated = buildAnnotatedString {
@@ -42,6 +41,7 @@ fun MeaningCard(
         }
         append(exampleText)
     }
+
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,23 +62,24 @@ fun MeaningCard(
             modifier = Modifier.padding(
                 top = PaddingMedium,
                 start = PaddingMedium,
-                end = PaddingMedium
-            ),
-            style = ParagraphMedium,
-            color = Color.Black,
-            text = meaningText,
-        )
-        Text(
-            text = exampleTextAnnotated,
-            modifier = Modifier.padding(
-                top = PaddingSmall,
-                start = PaddingMedium,
                 end = PaddingMedium,
                 bottom = PaddingMedium
             ),
             style = ParagraphMedium,
             color = Color.Black,
+            text = meaningText ?: "",
         )
+        if (exampleText != null)
+            Text(
+                text = exampleTextAnnotated,
+                modifier = Modifier.padding(
+                    start = PaddingMedium,
+                    end = PaddingMedium,
+                    bottom = PaddingMedium
+                ),
+                style = ParagraphMedium,
+                color = Color.Black,
+            )
     }
 }
 
@@ -90,9 +91,11 @@ fun MeaningCardPreview() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        repeat(10){
+        repeat(10) {
             item {
-                MeaningCard()
+                MeaningCard(
+                    exampleText = null
+                )
             }
         }
     }

@@ -19,25 +19,36 @@ sealed class DictionaryState {
 }
 
 
+data class DictionaryUiState(
+    val word: String = ""
+)
+
+
 @HiltViewModel
 class DictionaryViewModel @Inject constructor(private val dictionaryRepository: DictionaryRepository) :
     ViewModel() {
 
-
     private val _dictionaryState = MutableStateFlow<DictionaryState>(DictionaryState.Initial)
     val dictionaryState = _dictionaryState.asStateFlow()
 
+    private val _dictionaryUiState = MutableStateFlow(DictionaryUiState())
+    val dictionaryUiState = _dictionaryUiState.asStateFlow()
 
-    fun getWordWithDefinition(word: String = "war") {
-        viewModelScope.launch {
-            _dictionaryState.value = DictionaryState.Loading
-            try {
-                val data = dictionaryRepository.getWordWithDefinition(word)
+
+    fun getWordWithDefinition() {
+        if (_dictionaryUiState.value.word.isNotBlank()) {
+            viewModelScope.launch {
+                _dictionaryState.value = DictionaryState.Loading
+                val data = dictionaryRepository.getWordWithDefinition(_dictionaryUiState.value.word)
                 _dictionaryState.value = DictionaryState.Success(data)
-            } catch (e: Exception) {
-                _dictionaryState.value = DictionaryState.Error
             }
         }
+    }
+
+    fun onChangeWord(word: String) {
+        _dictionaryUiState.value = _dictionaryUiState.value.copy(
+            word = word
+        )
     }
 
 }

@@ -1,12 +1,10 @@
 plugins {
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
-    namespace = "com.yuriyyangel.dictionary_feature"
+    namespace = "ru.yangel.video_feature"
     compileSdk = 34
 
     defaultConfig {
@@ -41,15 +39,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":dictionary-uikit"))
-    implementation(project(":data:dictionary-data"))
-    implementation(project(":core"))
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.hilt.android)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -60,9 +53,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.material)
-    implementation(project(":feature:video-feature"))
+    implementation(project(":dictionary-uikit"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    kapt(libs.hilt.android.compiler)
 }
