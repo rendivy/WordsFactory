@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -126,7 +125,6 @@ private fun WordScreen(
     viewModel: DictionaryViewModel,
     word: WordDTO
 ) {
-    val context = LocalContext.current
     val audioIsPlaying = remember { mutableStateOf(false) }
     LazyColumn(
         modifier = modifier
@@ -166,30 +164,32 @@ private fun WordScreen(
                                 }
                         )
                     }
-
-                    Row(
-                        modifier = Modifier
-                            .padding(start = 16.dp, bottom = 16.dp)
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) {
-                        Text(text = "Part of Speech:", style = Heading2)
-                        Text(
-                            text = word.meanings[0].partOfSpeech.replaceFirstChar { char -> char.titlecaseChar() },
-                            style = ParagraphMedium,
-                            color = InkDark,
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-                    }
-                    Text(
-                        text = "Meanings :",
-                        style = Heading2,
-                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
-                    )
                 }
             }
+
+            Row(
+                modifier = Modifier
+                    .padding(start = 16.dp, bottom = 16.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(text = "Part of Speech:", style = Heading2)
+                Text(
+                    text = word.meanings[0].partOfSpeech.replaceFirstChar { char -> char.titlecaseChar() },
+                    style = ParagraphMedium,
+                    color = InkDark,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+            Text(
+                text = "Meanings :",
+                style = Heading2,
+                modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
+            )
         }
+
+
 
         items(word.meanings[0].definitions.size) {
             if (word.meanings[0].definitions[it].definition != null)

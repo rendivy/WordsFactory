@@ -22,7 +22,7 @@ class MediaPlayerService(url: String, onCompleteListener: () -> Unit, onStartLis
         onStartListener()
     }
 
-    fun onDestroy() {
+    private fun onDestroy() {
         mediaPlayer.release()
     }
 
