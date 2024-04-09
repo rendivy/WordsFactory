@@ -11,11 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.keyinc.dictionary_uikit.components.buttons.AccentButton
 import com.keyinc.dictionary_uikit.components.cards.MeaningCard
 import com.keyinc.dictionary_uikit.components.noRippleClickable
+import com.keyinc.dictionary_uikit.components.snackbar.SnackBar
 import com.keyinc.dictionary_uikit.components.textfield.SearchTextField
 import com.keyinc.dictionary_uikit.theme.Heading1
 import com.keyinc.dictionary_uikit.theme.Heading2
@@ -39,19 +44,35 @@ import com.keyinc.dictionary_uikit.theme.PaddingSemiMeduim
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
+import com.yuriyyangel.dictionary_feature.state.DictionaryState
 import com.yuriyyangel.dictionary_feature.utils.convertToPhoneticFormat
-import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryState
 import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryViewModel
 import ru.yangel.dictionary_data.model.WordDTO
 
 
 @Composable
-@Preview(showBackground = true, device = "id:Nexus 4")
+@Preview(showBackground = true)
 fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
     val dictionaryState = viewModel.dictionaryState.collectAsStateWithLifecycle()
     val dictionaryUiState by viewModel.dictionaryUiState.collectAsStateWithLifecycle()
 
+    val snackBarHostState = remember { SnackbarHostState() }
+    var snackBarLauncher by remember { mutableStateOf(false) }
+    val snackBarMessage = "Word not found"
+
+    if (snackBarLauncher) {
+        LaunchedEffect(snackBarMessage) {
+            snackBarHostState.showSnackbar(snackBarMessage)
+        }
+    }
+
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+                snackbar = { SnackBar(message = it.visuals.message) }
+            )
+        },
         topBar = {
             Column(
                 modifier = Modifier
@@ -73,9 +94,25 @@ fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
         },
     ) {
         when (dictionaryState.value) {
-            is DictionaryState.Initial -> DictionaryNoWordScreen(modifier = Modifier.padding(it))
-            is DictionaryState.Error -> {}
-            is DictionaryState.Loading -> CircularProgressIndicator()
+            is DictionaryState.Initial -> {
+                DictionaryNoWordScreen(modifier = Modifier.padding(it))
+            }
+            is DictionaryState.Error -> {
+                snackBarLauncher = true
+                viewModel.resetState()
+            }
+
+            is DictionaryState.Loading -> {
+                snackBarLauncher = false
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
             is DictionaryState.Success -> {
                 val content = ((dictionaryState.value) as DictionaryState.Success).data
 

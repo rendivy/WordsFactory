@@ -11,6 +11,7 @@ java {
 
 
 dependencies {
+    implementation(libs.kotlinx.coroutines.core)
     implementation("com.google.dagger:dagger:2.48")
     kapt("com.google.dagger:dagger-compiler:2.48")
 }
