@@ -3,27 +3,14 @@ package com.yuriyyangel.dictionary_feature.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yuriyyangel.dictionary_feature.services.MediaPlayerService
+import com.yuriyyangel.dictionary_feature.state.DictionaryState
+import com.yuriyyangel.dictionary_feature.state.DictionaryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.yangel.dictionary_data.model.WordDTO
 import ru.yangel.dictionary_data.repository.DictionaryRepository
 import javax.inject.Inject
-
-
-sealed class DictionaryState {
-    data object Initial : DictionaryState()
-    data object Loading : DictionaryState()
-    data class Success(val data: List<WordDTO>) : DictionaryState()
-    data object Error : DictionaryState()
-}
-
-
-data class DictionaryUiState(
-    val word: String = ""
-)
-
 
 @HiltViewModel
 class DictionaryViewModel @Inject constructor(private val dictionaryRepository: DictionaryRepository) :
