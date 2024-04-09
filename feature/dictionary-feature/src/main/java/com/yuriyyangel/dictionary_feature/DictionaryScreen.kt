@@ -14,9 +14,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -26,15 +29,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.keyinc.dictionary_uikit.components.buttons.AccentButton
 import com.keyinc.dictionary_uikit.components.cards.MeaningCard
+import com.keyinc.dictionary_uikit.components.noRippleClickable
 import com.keyinc.dictionary_uikit.components.textfield.SearchTextField
 import com.keyinc.dictionary_uikit.theme.Heading1
 import com.keyinc.dictionary_uikit.theme.Heading2
+import com.keyinc.dictionary_uikit.theme.InkDark
 import com.keyinc.dictionary_uikit.theme.PaddingLarge
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.PaddingSemiMeduim
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
+import com.yuriyyangel.dictionary_feature.utils.convertToPhoneticFormat
 import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryState
 import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryViewModel
 import ru.yangel.dictionary_data.model.WordDTO
@@ -77,6 +83,7 @@ fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
                 WordScreen(
                     word = content[0],
                     modifier = Modifier.padding(it),
+                    viewModel = viewModel
                 )
             }
         }
@@ -116,8 +123,11 @@ private fun DictionaryNoWordScreen(
 private fun WordScreen(
     modifier: Modifier = Modifier,
     onSaveWord: () -> Unit = {},
+    viewModel: DictionaryViewModel,
     word: WordDTO
 ) {
+    val context = LocalContext.current
+    val audioIsPlaying = remember { mutableStateOf(false) }
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -137,35 +147,50 @@ private fun WordScreen(
                     text = word.word.replaceFirstChar { char -> char.titlecaseChar() },
                     style = Heading1,
                 )
-                Text(
-                    text = word.phonetic.replaceFirstChar { char -> char.titlecaseChar() },
-                    style = ParagraphMedium,
-                    color = PrimaryColor,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
+                Row(modifier = Modifier.padding(start = 16.dp)) {
+                    word.phonetics.forEach {
+                        Text(
+                            text = it.text.convertToPhoneticFormat(),
+                            style = ParagraphMedium,
+                            color = PrimaryColor,
+                            modifier = Modifier
+                                .padding(end = 4.dp)
+                                .noRippleClickable {
+                                    if (it.audio.isNotEmpty() && !audioIsPlaying.value) {
+                                        viewModel.playAudio(
+                                            url = it.audio,
+                                            onCompleteListener = { audioIsPlaying.value = false },
+                                            onStartListener = { audioIsPlaying.value = true }
+                                        )
+                                    }
+                                }
+                        )
+                    }
 
+                    Row(
+                        modifier = Modifier
+                            .padding(start = 16.dp, bottom = 16.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(text = "Part of Speech:", style = Heading2)
+                        Text(
+                            text = word.meanings[0].partOfSpeech.replaceFirstChar { char -> char.titlecaseChar() },
+                            style = ParagraphMedium,
+                            color = InkDark,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                    Text(
+                        text = "Meanings :",
+                        style = Heading2,
+                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
+                    )
+                }
             }
-
-            Row(
-                modifier = Modifier
-                    .padding(start = 16.dp, bottom = 16.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Text(text = "Part of Speech:", style = Heading2)
-                Text(
-                    text = word.meanings[0].partOfSpeech.replaceFirstChar { char -> char.titlecaseChar() },
-                    style = ParagraphMedium,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-            Text(
-                text = "Meanings :",
-                style = Heading2,
-                modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
-            )
         }
+
         items(word.meanings[0].definitions.size) {
             if (word.meanings[0].definitions[it].definition != null)
                 MeaningCard(

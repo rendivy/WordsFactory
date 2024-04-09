@@ -2,6 +2,7 @@ package com.yuriyyangel.dictionary_feature.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yuriyyangel.dictionary_feature.services.MediaPlayerService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,6 +44,17 @@ class DictionaryViewModel @Inject constructor(private val dictionaryRepository: 
                 _dictionaryState.value = DictionaryState.Success(data)
             }
         }
+    }
+
+
+
+    fun playAudio(url: String, onCompleteListener: () -> Unit, onStartListener: () -> Unit) {
+        val mediaPlayer = MediaPlayerService(
+            url = url,
+            onCompleteListener = onCompleteListener,
+            onStartListener = onStartListener
+        )
+        mediaPlayer.mediaPlayer.start()
     }
 
     fun onChangeWord(word: String) {
