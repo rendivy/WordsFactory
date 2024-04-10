@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":feature:onboarding-feature"))
     implementation(project(":dictionary-api"))
     implementation(project(":dictionary-uikit"))
+    implementation(project(":database"))
     implementation(project(":core"))
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)

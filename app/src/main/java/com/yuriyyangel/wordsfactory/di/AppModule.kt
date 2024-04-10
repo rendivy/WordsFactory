@@ -1,11 +1,14 @@
 package com.yuriyyangel.wordsfactory.di
 
 
+import android.content.Context
+import com.keyinc.words.database.WordsDatabase
 import com.yuriyyangel.dictionaryapi.DictionaryApi
 import com.yuriyyangel.wordsfactory.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.yangel.core.di.AppDispatchers
 import javax.inject.Singleton
@@ -21,6 +24,12 @@ object AppModule {
         return DictionaryApi(
             baserUrl = BuildConfig.DICTIONARY_BASE_API_URL
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatabase(@ApplicationContext context: Context): WordsDatabase {
+        return WordsDatabase(context)
     }
 
 

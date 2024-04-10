@@ -5,7 +5,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 
-@Entity(indices = [Index(value = ["id"], unique = true)])
+@Entity(indices = [Index(value = ["id"])])
 data class MeaningDBO(
     @PrimaryKey
     val id: String,

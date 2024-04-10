@@ -9,19 +9,3 @@ data class WordPresentation(
     val word: String
 )
 
-data class MeaningPresentation(
-    val definitions: List<DefinitionPresentation>,
-    val partOfSpeech: String
-)
-
-data class PhoneticPresentation(
-    val audio: String,
-    val text: String,
-)
-
-data class DefinitionPresentation(
-    val definition: String?,
-    val example: String?,
-    val synonyms: List<String>?
-)
-
