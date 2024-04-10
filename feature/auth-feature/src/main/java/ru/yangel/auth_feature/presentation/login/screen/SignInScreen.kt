@@ -70,7 +70,6 @@ internal fun SignInScreen(viewModel: SignInViewModel, navigateToHome: () -> Unit
 
     }
 
-
     Scaffold(
         snackbarHost = {
             SnackbarHost(

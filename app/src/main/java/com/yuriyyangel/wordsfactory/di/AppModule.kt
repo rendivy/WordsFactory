@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.yangel.core.di.AppDispatchers
 import javax.inject.Singleton
 
 
@@ -20,6 +21,13 @@ object AppModule {
         return DictionaryApi(
             baserUrl = BuildConfig.DICTIONARY_BASE_API_URL
         )
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideAppDispatchers() : AppDispatchers {
+        return AppDispatchers()
     }
 
 
