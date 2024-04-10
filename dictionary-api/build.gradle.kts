@@ -11,6 +11,7 @@ java {
 
 
 dependencies {
+    implementation(project(":core"))
     implementation(libs.retrofit.adapters.result)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.converter.gson)
