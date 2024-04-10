@@ -45,10 +45,10 @@ import com.keyinc.dictionary_uikit.theme.PaddingSemiMeduim
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
+import com.yuriyyangel.dictionary_feature.model.WordPresentation
 import com.yuriyyangel.dictionary_feature.state.DictionaryState
 import com.yuriyyangel.dictionary_feature.utils.convertToPhoneticFormat
 import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryViewModel
-import ru.yangel.dictionary_data.model.WordDTO
 
 
 @Composable
@@ -162,7 +162,7 @@ private fun WordScreen(
     modifier: Modifier = Modifier,
     onSaveWord: () -> Unit = {},
     viewModel: DictionaryViewModel,
-    word: WordDTO
+    word: WordPresentation
 ) {
     val audioIsPlaying = remember { mutableStateOf(false) }
     LazyColumn(

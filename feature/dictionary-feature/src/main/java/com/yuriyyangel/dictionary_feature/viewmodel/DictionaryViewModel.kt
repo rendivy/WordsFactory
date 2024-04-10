@@ -2,6 +2,7 @@ package com.yuriyyangel.dictionary_feature.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yuriyyangel.dictionary_feature.mappers.WordMapper
 import com.yuriyyangel.dictionary_feature.services.MediaPlayerService
 import com.yuriyyangel.dictionary_feature.state.DictionaryError
 import com.yuriyyangel.dictionary_feature.state.DictionaryState
@@ -35,6 +36,7 @@ class DictionaryViewModel @Inject constructor(
                 try {
                     _dictionaryState.value = DictionaryState.Success(
                         dictionaryRepository.getWordWithDefinition(_dictionaryUiState.value.word)
+                            .map { WordMapper().transform(it) }
                     )
                 } catch (e: Exception) {
                     _dictionaryState.value =
