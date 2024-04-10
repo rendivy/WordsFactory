@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -32,7 +34,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.keyinc.dictionary_uikit.components.buttons.AccentButton
 import com.keyinc.dictionary_uikit.components.cards.MeaningCard
-import com.keyinc.dictionary_uikit.components.noRippleClickable
 import com.keyinc.dictionary_uikit.components.snackbar.SnackBar
 import com.keyinc.dictionary_uikit.components.textfield.SearchTextField
 import com.keyinc.dictionary_uikit.theme.Heading1
@@ -97,6 +98,7 @@ fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
             is DictionaryState.Initial -> {
                 DictionaryNoWordScreen(modifier = Modifier.padding(it))
             }
+
             is DictionaryState.Error -> {
                 snackBarLauncher = true
                 viewModel.resetState()
@@ -184,22 +186,39 @@ private fun WordScreen(
                 )
                 Row(modifier = Modifier.padding(start = 16.dp)) {
                     word.phonetics.forEach {
-                        Text(
-                            text = it.text.convertToPhoneticFormat(),
-                            style = ParagraphMedium,
-                            color = PrimaryColor,
-                            modifier = Modifier
-                                .padding(end = 4.dp)
-                                .noRippleClickable {
-                                    if (it.audio.isNotEmpty() && !audioIsPlaying.value) {
-                                        viewModel.playAudio(
-                                            url = it.audio,
-                                            onCompleteListener = { audioIsPlaying.value = false },
-                                            onStartListener = { audioIsPlaying.value = true }
-                                        )
-                                    }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            if (it.audio.isNotEmpty()) {
+                                Text(
+                                    text = it.text.convertToPhoneticFormat(),
+                                    style = ParagraphMedium,
+                                    color = PrimaryColor,
+                                    modifier = Modifier
+                                        .padding(end = 4.dp)
+                                )
+                                IconButton(
+                                    onClick = {
+                                        if (!audioIsPlaying.value) {
+                                            viewModel.playAudio(
+                                                url = it.audio,
+                                                onCompleteListener = {
+                                                    audioIsPlaying.value = false
+                                                },
+                                                onStartListener = { audioIsPlaying.value = true }
+                                            )
+                                        }
+                                    },
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.sound_ic),
+                                        tint = PrimaryColor,
+                                        contentDescription = null
+                                    )
                                 }
-                        )
+                            }
+                        }
                     }
                 }
             }
