@@ -1,13 +1,13 @@
 package com.keyinc.words.database.entity
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(indices = [Index(value = ["id"])])
+@Entity
 data class DefinitionDBO(
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val wordId: String,
     val example: String,
     val definition: String,
 )

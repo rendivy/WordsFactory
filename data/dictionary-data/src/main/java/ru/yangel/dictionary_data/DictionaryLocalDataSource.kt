@@ -17,6 +17,17 @@ internal class DictionaryLocalDataSource @Inject constructor(private val databas
     ) {
         database.runInTransaction {
             database.wordDao.insertWord(wordDBO = word)
+            meaningList.forEach { meaning ->
+                database.meaningDao.insertMeaning(meaningDBO = meaning)
+            }
+            definitionList.forEach { definitionList ->
+                definitionList.forEach { definition ->
+                    database.definitionDao.insertDefinition(definitionDBO = definition)
+                }
+            }
+            phoneticList.forEach { phonetic ->
+                database.phoneticDao.insertPhonetic(phoneticDBO = phonetic)
+            }
         }
     }
 }

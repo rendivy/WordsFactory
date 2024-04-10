@@ -24,7 +24,7 @@ class WordToEntityMapper : Mapper<WordDBO, WordDTO> {
     ): List<DefinitionDBO> {
         return definitionList.map {
             DefinitionDBO(
-                id = data.word,
+                wordId = data.word,
                 definition = it.definition ?: "",
                 example = it.example ?: "",
             )
@@ -34,8 +34,8 @@ class WordToEntityMapper : Mapper<WordDBO, WordDTO> {
     fun transformMeaning(data: WordDTO, meaningList: List<MeaningDTO>): List<MeaningDBO> {
         return meaningList.map {
             MeaningDBO(
-                id = data.word,
-                partOfSpeech = it.partOfSpeech ?: "",
+                wordId = data.word,
+                partOfSpeech = it.partOfSpeech,
             )
         }
     }
@@ -44,7 +44,7 @@ class WordToEntityMapper : Mapper<WordDBO, WordDTO> {
     fun transformPhonetic(data: WordDTO, phoneticList: List<PhoneticDTO>): List<PhoneticDBO> {
         return phoneticList.map {
             PhoneticDBO(
-                id = data.word,
+                wordId = data.word,
                 audio = it.audio,
                 text = it.text,
             )

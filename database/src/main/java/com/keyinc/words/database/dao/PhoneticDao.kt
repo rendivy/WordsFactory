@@ -12,6 +12,6 @@ interface PhoneticDao {
     @Insert
     suspend fun insertPhonetic(phoneticDBO: PhoneticDBO)
 
-    @Query("DELETE FROM PhoneticDBO WHERE id = :word")
+    @Query("DELETE FROM PhoneticDBO WHERE wordId = :word")
     suspend fun deletePhoneticOfWord(word: String)
 }
