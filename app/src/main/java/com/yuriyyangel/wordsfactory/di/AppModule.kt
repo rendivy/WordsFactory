@@ -12,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.yangel.core.di.AppDispatchers
+import ru.yangel.dictionary_data.observer.WordsObservable
 import ru.yangel.dictionary_data.repository.WordRepository
 import javax.inject.Singleton
 
@@ -49,4 +50,5 @@ object AppModule {
 @InstallIn(SingletonComponent::class)
 interface WidgetFactoryAppDependencies {
     fun wordRepository(): WordRepository
+    fun wordsObservable(): WordsObservable<Boolean>
 }

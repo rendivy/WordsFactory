@@ -4,10 +4,13 @@ import com.keyinc.words.database.entity.DefinitionDBO
 import ru.yangel.dictionary_data.DictionaryLocalDataSource
 import ru.yangel.dictionary_data.mappers.WordToEntityMapper
 import ru.yangel.dictionary_data.model.WordDTO
+import ru.yangel.dictionary_data.observer.WordsObservable
 import javax.inject.Inject
 
-internal class WordRepositoryImpl @Inject constructor(private val localDataSource: DictionaryLocalDataSource) :
-    WordRepository {
+internal class WordRepositoryImpl @Inject constructor(
+    private val localDataSource: DictionaryLocalDataSource,
+    private val wordsUpdateObservable: WordsObservable<Boolean>
+) : WordRepository {
 
     private val wordToEntityMapper = WordToEntityMapper()
 
@@ -27,6 +30,7 @@ internal class WordRepositoryImpl @Inject constructor(private val localDataSourc
             definitionList = fullDefinitionList,
             phoneticList = phoneticList
         )
+        wordsUpdateObservable.notifyObservers(true)
     }
 
     override suspend fun getAllWord(): List<WordDTO> {

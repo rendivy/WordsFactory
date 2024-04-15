@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.yangel.dictionary_data.observer.WordsObservable
+import ru.yangel.dictionary_data.observer.WordsUpdateObservable
 import ru.yangel.dictionary_data.repository.DictionaryRepository
 import ru.yangel.dictionary_data.repository.DictionaryRepositoryImpl
 import ru.yangel.dictionary_data.repository.WordRepository
@@ -19,6 +21,9 @@ abstract class DictionaryModule {
 
     @Binds
     internal abstract fun wordRepositoryBinds(dictionaryRepositoryImpl: WordRepositoryImpl) : WordRepository
+
+    @Binds
+    internal abstract fun wordsUpdateObservableBinds(wordsUpdateObservable: WordsUpdateObservable) : WordsObservable<Boolean>
 }
 
 
