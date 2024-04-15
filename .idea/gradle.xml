@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/feature/onboarding-feature" />
             <option value="$PROJECT_DIR$/feature/splash-feature" />
             <option value="$PROJECT_DIR$/feature/video-feature" />
+            <option value="$PROJECT_DIR$/feature/widget-feature" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

@@ -33,4 +33,8 @@ internal class WordRepositoryImpl @Inject constructor(private val localDataSourc
         TODO("Not yet implemented")
     }
 
+    override suspend fun getWordsCount(): Int {
+        return localDataSource.getWordsCount()
+    }
+
 }

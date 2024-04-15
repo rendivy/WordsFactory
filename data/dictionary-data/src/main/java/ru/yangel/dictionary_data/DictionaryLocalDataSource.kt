@@ -30,4 +30,8 @@ internal class DictionaryLocalDataSource @Inject constructor(private val databas
             }
         }
     }
+
+    suspend fun getWordsCount(): Int {
+        return database.wordDao.getWordsCount()
+    }
 }
