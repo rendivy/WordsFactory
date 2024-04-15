@@ -24,6 +24,7 @@ class DictionaryViewModel @Inject constructor(
 ) : ViewModel() {
 
 
+
     private val _dictionaryState = MutableStateFlow<DictionaryState>(DictionaryState.Initial)
     val dictionaryState = _dictionaryState.asStateFlow()
 

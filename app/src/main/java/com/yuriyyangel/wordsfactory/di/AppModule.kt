@@ -7,10 +7,12 @@ import com.yuriyyangel.dictionaryapi.DictionaryApi
 import com.yuriyyangel.wordsfactory.BuildConfig
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.yangel.core.di.AppDispatchers
+import ru.yangel.dictionary_data.repository.WordRepository
 import javax.inject.Singleton
 
 
@@ -26,12 +28,12 @@ object AppModule {
         )
     }
 
+
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): WordsDatabase {
         return WordsDatabase(context)
     }
-
 
     @Singleton
     @Provides
@@ -40,4 +42,11 @@ object AppModule {
     }
 
 
+}
+
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface WidgetFactoryAppDependencies {
+    fun wordRepository(): WordRepository
 }

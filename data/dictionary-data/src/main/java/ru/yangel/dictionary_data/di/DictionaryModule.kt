@@ -20,3 +20,5 @@ abstract class DictionaryModule {
     @Binds
     internal abstract fun wordRepositoryBinds(dictionaryRepositoryImpl: WordRepositoryImpl) : WordRepository
 }
+
+

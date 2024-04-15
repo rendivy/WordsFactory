@@ -1,4 +1,4 @@
-package ru.yangel.widget_feature.ui
+package com.yuriyyangel.wordsfactory.presentation.widget.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
