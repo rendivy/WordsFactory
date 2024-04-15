@@ -30,6 +30,7 @@ playServicesAuth = "21.0.0"
 googleGmsGoogleServices = "4.4.1"
 firebaseCommonKtx = "20.4.3"
 firebaseAuthInterop = "20.0.0"
+coreKtxVersion = "1.5.0"
 
 
 
@@ -75,6 +76,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 firebase-auth-interop = { group = "com.google.firebase", name = "firebase-auth-interop", version.ref = "firebaseAuthInterop" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 
 [plugins]
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }

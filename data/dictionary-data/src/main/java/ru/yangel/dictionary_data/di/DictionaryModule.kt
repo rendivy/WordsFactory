@@ -14,7 +14,6 @@ import ru.yangel.dictionary_data.repository.WordRepositoryImpl
 @InstallIn(SingletonComponent::class)
 abstract class DictionaryModule {
 
-
     @Binds
     internal abstract fun dictionaryRepositoryBinds(dictionaryRepositoryImpl: DictionaryRepositoryImpl) : DictionaryRepository
 

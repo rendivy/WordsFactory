@@ -51,6 +51,7 @@ import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryViewModel
 import ru.yangel.dictionary_data.model.WordDTO
 
 
+
 @Composable
 @Preview(showBackground = true)
 fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {

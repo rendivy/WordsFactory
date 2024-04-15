@@ -65,6 +65,8 @@ dependencies {
     implementation(project(":dictionary-uikit"))
     implementation(project(":database"))
     implementation(project(":core"))
+    implementation("androidx.glance:glance:1.1.0-beta01")
+    implementation("androidx.glance:glance-appwidget:1.1.0-beta01")
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.androidx.core.ktx)
