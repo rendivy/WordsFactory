@@ -41,8 +41,6 @@ object AppModule {
     fun provideAppDispatchers() : AppDispatchers {
         return AppDispatchers()
     }
-
-
 }
 
 
@@ -50,5 +48,5 @@ object AppModule {
 @InstallIn(SingletonComponent::class)
 interface WidgetFactoryAppDependencies {
     fun wordRepository(): WordRepository
-    fun wordsObservable(): WordsObservable<Boolean>
+    fun wordsObservable(): WordsObservable<Int>
 }

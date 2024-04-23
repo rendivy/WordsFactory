@@ -23,7 +23,7 @@ abstract class DictionaryModule {
     internal abstract fun wordRepositoryBinds(dictionaryRepositoryImpl: WordRepositoryImpl) : WordRepository
 
     @Binds
-    internal abstract fun wordsUpdateObservableBinds(wordsUpdateObservable: WordsUpdateObservable) : WordsObservable<Boolean>
+    internal abstract fun wordsUpdateObservableBinds(wordsUpdateObservable: WordsUpdateObservable) : WordsObservable<Int>
 }
 
 

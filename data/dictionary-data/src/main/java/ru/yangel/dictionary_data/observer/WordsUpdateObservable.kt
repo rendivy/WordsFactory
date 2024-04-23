@@ -1,21 +1,17 @@
 package ru.yangel.dictionary_data.observer
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class WordsUpdateObservable @Inject constructor() : WordsObservable<Boolean> {
+class WordsUpdateObservable @Inject constructor() : WordsObservable<Int> {
 
-    override var buffer = Channel<Boolean>(Channel.CONFLATED)
+    private val mutableState = MutableStateFlow(0)
+    override val state: StateFlow<Int> = mutableState
 
-    @OptIn(DelicateCoroutinesApi::class)
-    override suspend fun notifyObservers(value: Boolean) {
-        if (buffer.isClosedForSend) {
-            buffer = Channel(Channel.CONFLATED)
-        }
-        buffer.trySend(value)
+    override suspend fun notifyObservers(value: Int) {
+        mutableState.value = value
     }
-
 }

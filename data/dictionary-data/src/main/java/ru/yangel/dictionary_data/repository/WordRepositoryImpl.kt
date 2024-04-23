@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 internal class WordRepositoryImpl @Inject constructor(
     private val localDataSource: DictionaryLocalDataSource,
-    private val wordsUpdateObservable: WordsObservable<Boolean>
+    private val wordsUpdateObservable: WordsObservable<Int>
 ) : WordRepository {
 
     private val wordToEntityMapper = WordToEntityMapper()
@@ -30,7 +30,7 @@ internal class WordRepositoryImpl @Inject constructor(
             definitionList = fullDefinitionList,
             phoneticList = phoneticList
         )
-        wordsUpdateObservable.notifyObservers(true)
+        getWordsCount()
     }
 
     override suspend fun getAllWord(): List<WordDTO> {
@@ -38,6 +38,8 @@ internal class WordRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getWordsCount(): Int {
+        val databaseCount = localDataSource.getWordsCount()
+        wordsUpdateObservable.notifyObservers(databaseCount)
         return localDataSource.getWordsCount()
     }
 

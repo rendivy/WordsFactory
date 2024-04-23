@@ -1,10 +1,11 @@
 package ru.yangel.dictionary_data.observer
 
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.StateFlow
 
 interface WordsObservable<T> {
 
-    val buffer: Channel<T>
+    val state: StateFlow<T>
+
     suspend fun notifyObservers(value: T)
 }
 
