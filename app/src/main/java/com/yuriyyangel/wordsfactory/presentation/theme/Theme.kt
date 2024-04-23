@@ -1,4 +1,4 @@
-package com.yuriyyangel.wordsfactory.ui.theme
+package com.yuriyyangel.wordsfactory.presentation.theme
 
 import android.app.Activity
 import android.os.Build

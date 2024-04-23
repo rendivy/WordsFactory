@@ -10,6 +10,6 @@ interface DefinitionDao {
     @Insert
     suspend fun insertDefinition(definitionDBO: DefinitionDBO)
 
-    @Query("DELETE FROM DefinitionDBO WHERE id = :word")
+    @Query("DELETE FROM DefinitionDBO WHERE wordId = :word")
     suspend fun deleteDefinitionsOfWord(word: String)
 }

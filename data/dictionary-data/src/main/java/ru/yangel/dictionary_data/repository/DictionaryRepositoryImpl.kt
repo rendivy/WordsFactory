@@ -14,4 +14,5 @@ internal class DictionaryRepositoryImpl @Inject constructor(private val dictiona
             WordMapper.mapWordResponseItemToWord(it)
         }
     }
+
 }

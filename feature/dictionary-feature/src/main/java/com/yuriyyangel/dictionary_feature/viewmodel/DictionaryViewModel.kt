@@ -11,14 +11,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.yangel.core.di.AppDispatchers
+import ru.yangel.dictionary_data.model.WordDTO
 import ru.yangel.dictionary_data.repository.DictionaryRepository
+import ru.yangel.dictionary_data.repository.WordRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class DictionaryViewModel @Inject constructor(
     private val dictionaryRepository: DictionaryRepository,
+    private val wordRepository: WordRepository,
     private val appDispatchers: AppDispatchers,
 ) : ViewModel() {
+
 
 
     private val _dictionaryState = MutableStateFlow<DictionaryState>(DictionaryState.Initial)
@@ -35,6 +39,7 @@ class DictionaryViewModel @Inject constructor(
                 try {
                     _dictionaryState.value = DictionaryState.Success(
                         dictionaryRepository.getWordWithDefinition(_dictionaryUiState.value.word)
+
                     )
                 } catch (e: Exception) {
                     _dictionaryState.value =
@@ -42,6 +47,12 @@ class DictionaryViewModel @Inject constructor(
                 }
 
             }
+        }
+    }
+
+    fun saveWord(wordDto: WordDTO) {
+        viewModelScope.launch(appDispatchers.io) {
+            wordRepository.saveWord(wordDTO = wordDto)
         }
     }
 

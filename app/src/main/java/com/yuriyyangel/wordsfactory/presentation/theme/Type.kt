@@ -1,4 +1,4 @@
-package com.yuriyyangel.wordsfactory.ui.theme
+package com.yuriyyangel.wordsfactory.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -8,20 +8,4 @@ data class WordDTO(
     val word: String
 )
 
-data class MeaningDTO(
-    val definitions: List<DefinitionDTO>,
-    val partOfSpeech: String
-)
-
-
-data class PhoneticDTO(
-    val audio: String,
-    val text: String,
-)
-
-data class DefinitionDTO(
-    val definition: String?,
-    val example: String?,
-    val synonyms: List<String>?
-)
 
