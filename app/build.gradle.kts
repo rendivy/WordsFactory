@@ -21,6 +21,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "DICTIONARY_BASE_API_URL", "\"https://api.dictionaryapi.dev/api/v2/entries/en/\"")
     }
 
     buildTypes {
@@ -40,6 +42,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -54,8 +57,21 @@ android {
 
 dependencies {
     implementation(project(":feature:auth-feature"))
+    implementation(project(":feature:video-feature"))
+    implementation(project(":feature:dictionary-feature"))
     implementation(project(":feature:splash-feature"))
+    implementation(project(":data:dictionary-data"))
+    implementation(project(":feature:widget-feature"))
+    implementation(project(":feature:onboarding-feature"))
+    implementation(project(":dictionary-api"))
+    implementation(project(":dictionary-uikit"))
+    implementation(project(":database"))
     implementation(project(":core"))
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation(libs.androidx.glance)
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android.v139)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.androidx.core.ktx)
@@ -67,6 +83,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.hilt.work)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

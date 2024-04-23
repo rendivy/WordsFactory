@@ -7,7 +7,8 @@
     <string name="email">Почта</string>
     <string name="password">Пароль</string>
     <string name="sign_up_button">Войти</string>
-    <string name="already_have_an_account">Вы уже с нами? Войдите в свой аккаунт</string>
+    <string name="validation_error">Пожалуйста, проверьте корректность введеных вами данных</string>
+    <string name="already_have_an_account">Вы уже с нами?</string>
     <string name="sign_in_button">Войти</string>
     <string name="login_account">Войдите в свой аккаунт</string>
     <string name="or">Или</string>
@@ -15,4 +16,6 @@
     <string name="with_google">Продолжить с Google</string>
     <string name="with_facebook">Продолжить с Facebook</string>
     <string name="snackbar_error">Пожалуйста, проверьте правильность введеных вами данных</string>
+    <string name="email_busy">Такая почта уже используется в системе</string>
+    <string name="unknown_error">Ой, произошла неожиданная ошибка</string>
 </resources>

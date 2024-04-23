@@ -10,6 +10,6 @@ interface MeaningDao {
     @Insert
     suspend fun insertMeaning(meaningDBO: MeaningDBO)
 
-    @Query("DELETE FROM MeaningDBO WHERE id = :word")
+    @Query("DELETE FROM MeaningDBO WHERE wordId = :word")
     suspend fun deleteMeaningsOfWord(word: String)
 }

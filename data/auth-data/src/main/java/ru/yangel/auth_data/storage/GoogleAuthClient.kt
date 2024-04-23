@@ -1,24 +1,28 @@
 package ru.yangel.auth_data.storage
 
-import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.tasks.await
+import ru.yangel.core.customexception.AuthCollisionException
+import ru.yangel.core.customexception.AuthException
 import kotlin.coroutines.cancellation.CancellationException
 
 
-class GoogleAuthClient(
-    private val context: Context,
-    private val oneTapClient: SignInClient
-) {
+class GoogleAuthClient(private val oneTapClient: SignInClient) {
 
     private val auth = Firebase.auth
+
+
+    fun isUserAlreadyLogin(): Boolean {
+        return auth.currentUser != null
+    }
 
 
     suspend fun signIn(): IntentSender? {
@@ -35,9 +39,29 @@ class GoogleAuthClient(
     }
 
 
-    suspend fun registerUser(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
+    suspend fun signInWithEmailAndPassword(email: String, password: String) {
+        try {
+            auth.signInWithEmailAndPassword(email, password).await()
+        } catch (e: FirebaseAuthException) {
+            throw AuthException("Auth failed")
+        } catch (e: Exception) {
+            throw e
+        }
     }
+
+
+    suspend fun registerUser(email: String, password: String) {
+        try {
+            auth.createUserWithEmailAndPassword(email, password).await()
+        }
+        catch (e: FirebaseAuthUserCollisionException) {
+            throw AuthCollisionException("Email already busy")
+        }
+        catch (e: Exception) {
+            throw e
+        }
+    }
+
 
     suspend fun signInWithIntent(intent: Intent): SignInResult {
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)
@@ -63,24 +87,6 @@ class GoogleAuthClient(
                 errorMessage = e.message
             )
         }
-    }
-
-    suspend fun signOut() {
-        try {
-            oneTapClient.signOut().await()
-            auth.signOut()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            if (e is CancellationException) throw e
-        }
-    }
-
-    fun getSignedInUser(): UserData? = auth.currentUser?.run {
-        UserData(
-            userId = uid,
-            username = displayName,
-            profilePictureUrl = photoUrl?.toString()
-        )
     }
 
     private fun buildSignInRequest(): BeginSignInRequest {

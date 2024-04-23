@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -26,6 +27,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.keyinc.dictionary_uikit.components.noRippleClickable
 import com.keyinc.dictionary_uikit.theme.InkGray
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
@@ -33,24 +39,13 @@ import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
 
 
-@Composable
-@Preview(showBackground = true)
-fun CustomBottomNavigationBar() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        BottomBar()
-    }
-}
 
 
 @Composable
-fun BottomBar() {
-    val currentRoute= rememberSaveable { mutableStateOf("dictionary") }
+fun BottomBar(navController: NavHostController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
     val screens = listOf(
         BottomBarRoutes.Dictionary,
         BottomBarRoutes.Train,
@@ -70,7 +65,8 @@ fun BottomBar() {
         screens.forEach { screen ->
             AddItem(
                 screen = screen,
-                currentRoute = currentRoute,
+                currentDestination = currentDestination,
+                navController = navController
             )
         }
     }
@@ -80,16 +76,21 @@ fun BottomBar() {
 @Composable
 fun RowScope.AddItem(
     screen: BottomBarRoutes,
-    currentRoute: MutableState<String>,
+    currentDestination: NavDestination?,
+    navController: NavHostController
 ) {
-    val color = if (currentRoute.value == screen.route) PrimaryColor else InkGray
+    val color = if (currentDestination?.route == screen.route) PrimaryColor else InkGray
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .weight(1f)
             .noRippleClickable {
-                currentRoute.value = screen.route
+                navController.navigate(screen.route) {
+                    popUpTo(navController.graph.findStartDestination().id)
+                    launchSingleTop = true
+                }
             }) {
         Icon(
             imageVector = ImageVector.vectorResource(screen.icon),

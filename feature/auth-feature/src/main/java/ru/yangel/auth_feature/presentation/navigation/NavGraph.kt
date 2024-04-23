@@ -2,7 +2,6 @@ package ru.yangel.auth_feature.presentation.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import ru.yangel.auth_feature.presentation.login.screen.SignInScreen
 import ru.yangel.auth_feature.presentation.registration.SignUpScreen
@@ -42,12 +41,17 @@ fun NavController.navigateToLogin(
 }
 
 
-fun NavGraphBuilder.authGraph(onSignUpClicked: () -> Unit = {}) {
+fun NavGraphBuilder.authGraph(
+    onNavigateToHome: () -> Unit = {},
+    onNavigateToLogin: () -> Unit = {}
+) {
     composable(route = REGISTRATION_ROUTE) {
-        SignUpScreen()
+        SignUpScreen(onNavigateToLogin = onNavigateToLogin, onNavigateToHome)
     }
     composable(route = LOGIN_ROUTE) {
-        SignInScreen()
+        SignInScreen(
+            navigateToHome = onNavigateToHome
+        )
     }
 
 }

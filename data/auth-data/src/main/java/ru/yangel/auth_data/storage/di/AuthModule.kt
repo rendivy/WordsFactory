@@ -32,7 +32,6 @@ object DataStorageModule {
     @Provides
     fun provideGoogleAuthService(@ApplicationContext context: Context): GoogleAuthClient {
         return GoogleAuthClient(
-            context = context,
             oneTapClient = Identity.getSignInClient(context)
         )
     }

@@ -7,8 +7,11 @@
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="email_busy">Email already busy</string>
+    <string name="unknown_error">Ooops, unknown error</string>
     <string name="sign_up_button">Sign Up</string>
-    <string name="already_have_an_account">You already with us? Sign in into your account</string>
+    <string name="validation_error">Please, check correctness of your credentials</string>
+    <string name="already_have_an_account">You already with us?</string>
     <string name="spannable_part">Sign in into your account</string>
 
     <!-- Strings for SignInScreen -->

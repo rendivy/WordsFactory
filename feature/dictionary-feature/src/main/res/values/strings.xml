@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_word">No word</string>
+    <string name="no_word_desc">Input something to find it in dictionary</string>
+    <string name="add_word">Add to Dictionary</string>
+    
+</resources>

@@ -12,13 +12,18 @@ import com.keyinc.words.database.entity.DefinitionDBO
 import com.keyinc.words.database.entity.MeaningDBO
 import com.keyinc.words.database.entity.PhoneticDBO
 import com.keyinc.words.database.entity.WordDBO
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class WordsDatabase internal constructor(private val database: WordsRoomDatabase) {
 
-    fun runInTransaction(block: () -> Unit) {
+    fun runInTransaction(block: suspend () -> Unit) {
         database.runInTransaction {
-            block()
+            CoroutineScope(Dispatchers.IO).launch {
+                block()
+            }
         }
     }
 
