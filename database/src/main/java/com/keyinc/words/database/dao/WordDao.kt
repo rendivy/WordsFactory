@@ -18,7 +18,7 @@ interface WordDao {
 
     @Transaction
     @Query("SELECT * FROM WordDBO WHERE word = :word")
-    suspend fun getWordWithMeanings(word: String): WordWithAllAttributes
+    suspend fun getWordWithMeanings(word: String): WordWithAllAttributes?
 
     @Query("SELECT COUNT(*) FROM WordDBO")
     suspend fun getWordsCount(): Int

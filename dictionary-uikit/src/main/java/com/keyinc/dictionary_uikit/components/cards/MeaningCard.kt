@@ -69,7 +69,7 @@ fun MeaningCard(
             color = Color.Black,
             text = meaningText ?: "",
         )
-        if (exampleText != null)
+        if (!exampleText.isNullOrEmpty())
             Text(
                 text = exampleTextAnnotated,
                 modifier = Modifier.padding(

@@ -3,6 +3,7 @@ package ru.yangel.dictionary_data.repository
 import com.keyinc.words.database.entity.DefinitionDBO
 import ru.yangel.dictionary_data.DictionaryLocalDataSource
 import ru.yangel.dictionary_data.mappers.WordToEntityMapper
+import ru.yangel.dictionary_data.mappers.WordWithMeaningToDtoMapper
 import ru.yangel.dictionary_data.model.WordDTO
 import ru.yangel.dictionary_data.observer.WordsObservable
 import javax.inject.Inject
@@ -13,6 +14,7 @@ internal class WordRepositoryImpl @Inject constructor(
 ) : WordRepository {
 
     private val wordToEntityMapper = WordToEntityMapper()
+    private val wordWithMeaningToDtoMapper = WordWithMeaningToDtoMapper()
 
     override suspend fun saveWord(wordDTO: WordDTO) {
         val meaningList = wordToEntityMapper.transformMeaning(wordDTO, wordDTO.meanings)
@@ -33,8 +35,14 @@ internal class WordRepositoryImpl @Inject constructor(
         getWordsCount()
     }
 
+    override suspend fun getWordFromLocalSource(word: String): WordDTO? {
+        val wordEntity = localDataSource.getWordFromLocalStore(word)
+        return wordEntity?.let { wordWithMeaningToDtoMapper.transform(it) }
+    }
+
     override suspend fun getAllWord(): List<WordDTO> {
-        TODO("Not yet implemented")
+        return localDataSource.getAllWordFromLocalStore()
+            ?.map { wordWithMeaningToDtoMapper.transform(it) } ?: emptyList()
     }
 
     override suspend fun getWordsCount(): Int {
