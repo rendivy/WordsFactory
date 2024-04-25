@@ -14,6 +14,7 @@ import com.keyinc.dictionary_uikit.components.bottomNavigation.BottomBar
 import com.keyinc.dictionary_uikit.components.bottomNavigation.BottomBarRoutes
 import com.yuriyyangel.dictionary_feature.DictionaryScreen
 import ru.yangel.core.navigation.NavigationRoutes
+import ru.yangel.training_feature.screen.TrainingScreen
 import ru.yangel.video_feature.VideoScreen
 
 fun NavController.navigateToDictionary(
@@ -36,7 +37,6 @@ fun NavGraphBuilder.dictionaryGraph() {
     composable(NavigationRoutes.DictionaryRoute.route) {
         MainScreen()
     }
-
 }
 
 
@@ -60,10 +60,10 @@ fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifi
         composable(route = BottomBarRoutes.Dictionary.route) {
             DictionaryScreen()
         }
-        composable(route = BottomBarRoutes.Video.route) {
-            VideoScreen()
-        }
         composable(route = BottomBarRoutes.Train.route) {
+            TrainingScreen(wordCount = 10)
+        }
+        composable(route = BottomBarRoutes.Video.route) {
             VideoScreen()
         }
     }

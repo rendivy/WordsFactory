@@ -13,6 +13,7 @@ import ru.yangel.auth_feature.presentation.navigation.navigateToLogin
 import ru.yangel.auth_feature.presentation.navigation.navigateToRegistration
 import ru.yangel.core.navigation.NavigationRoutes
 import ru.yangel.splash_feature.presentation.navigation.splashGraph
+import ru.yangel.training_feature.navigation.trainingGraph
 
 @Composable
 fun NavigationGraph(startDestination: String = NavigationRoutes.SplashRoute.route) {
@@ -47,6 +48,7 @@ fun NavigationGraph(startDestination: String = NavigationRoutes.SplashRoute.rout
                 )
             }
         )
+        trainingGraph()
         dictionaryGraph()
         onBoardingGraph(
             onNavigateToRegistration = {

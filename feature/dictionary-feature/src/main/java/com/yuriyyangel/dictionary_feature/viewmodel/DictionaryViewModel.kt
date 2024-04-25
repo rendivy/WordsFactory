@@ -22,9 +22,7 @@ class DictionaryViewModel @Inject constructor(
     private val wordRepository: WordRepository,
     private val appDispatchers: AppDispatchers,
 ) : ViewModel() {
-
-
-
+    
     private val _dictionaryState = MutableStateFlow<DictionaryState>(DictionaryState.Initial)
     val dictionaryState = _dictionaryState.asStateFlow()
 
@@ -45,7 +43,6 @@ class DictionaryViewModel @Inject constructor(
                     _dictionaryState.value =
                         DictionaryState.Error(DictionaryError.WORD_NOT_FOUND)
                 }
-
             }
         }
     }

@@ -60,6 +60,7 @@ dependencies {
     implementation(project(":feature:video-feature"))
     implementation(project(":feature:dictionary-feature"))
     implementation(project(":feature:splash-feature"))
+    implementation(project(":feature:training-feature"))
     implementation(project(":data:dictionary-data"))
     implementation(project(":feature:widget-feature"))
     implementation(project(":feature:onboarding-feature"))

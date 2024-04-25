@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.yuriyyangel.dictionary_feature"
+    namespace = "ru.yangel.training_feature"
     compileSdk = 34
 
     defaultConfig {
@@ -41,11 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:video-feature"))
-    implementation(project(":feature:training-feature"))
     implementation(project(":dictionary-uikit"))
-    implementation(project(":data:dictionary-data"))
-    implementation(project(":core"))
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -66,4 +62,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     kapt(libs.hilt.android.compiler)
+}
+
+kapt {
+    correctErrorTypes = true
 }
