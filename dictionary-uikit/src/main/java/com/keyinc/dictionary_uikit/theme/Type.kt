@@ -59,6 +59,14 @@ val ParagraphMedium = TextStyle(
     fontSize = SmallFontSize
 )
 
+val ButtonQuestion = TextStyle(
+    fontFamily = FontFamily(
+        Font(R.font.rubick_regular)
+    ),
+    fontWeight = FontWeight.Normal,
+    fontSize = MediumFontSize
+)
+
 val ButtonSmall = TextStyle(
     fontFamily = FontFamily(
         Font(R.font.rubik_medium)

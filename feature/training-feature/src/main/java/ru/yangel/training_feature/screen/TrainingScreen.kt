@@ -1,7 +1,12 @@
 package ru.yangel.training_feature.screen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,11 +56,15 @@ import ru.yangel.training_feature.viewmodel.TrainingViewModel
 fun TrainingScreen(trainingViewModel: TrainingViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val trainingState by trainingViewModel.trainingState.collectAsStateWithLifecycle()
-
-    val wordCount = (trainingState as? TrainingState.Initial)?.wordCount ?: 0
+    val wordCount by trainingViewModel.wordCount.collectAsStateWithLifecycle()
     val name = context.getString(R.string.training_label, wordCount)
     val startIndex = name.indexOf(wordCount.toString())
     val endIndex = startIndex + wordCount.toString().length
+
+    if (wordCount < 3) {
+        TrainingNoWordPlaceHolder()
+        return
+    }
 
     val annotatedString = buildAnnotatedString {
         append(name.substring(0, startIndex))
@@ -81,17 +90,23 @@ fun TrainingScreen(trainingViewModel: TrainingViewModel = hiltViewModel()) {
                 style = Heading1
             )
         }
-        when (trainingState) {
-            is TrainingState.Initial -> {
-                AccentButton(
-                    modifier = Modifier.padding(start = PaddingMedium, end = PaddingMedium),
-                    onClick = { trainingViewModel.startTraining() },
-                )
-            }
+        AnimatedVisibility(
+            visible = trainingState is TrainingState.Initial,
+            enter = fadeIn() + expandIn(),
+            exit = fadeOut() + shrinkOut()
+        ) {
+            AccentButton(
+                modifier = Modifier.padding(start = PaddingMedium, end = PaddingMedium),
+                onClick = { trainingViewModel.startTraining() },
+            )
+        }
 
-            is TrainingState.Start -> {
-                LoadingScreen()
-            }
+        AnimatedVisibility(
+            visible = trainingState is TrainingState.Start,
+            enter = fadeIn() + expandIn(),
+            exit = fadeOut() + shrinkOut()
+        ) {
+            LoadingScreen()
         }
     }
 }

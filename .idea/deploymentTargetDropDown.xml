@@ -8,6 +8,9 @@
       <entry key="LoadingScreen (1)">
         <State />
       </entry>
+      <entry key="QuestionScreen">
+        <State />
+      </entry>
       <entry key="WidgetPreview">
         <State />
       </entry>

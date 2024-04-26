@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 
 sealed class TrainingState {
-    data class Initial(val wordCount: Int) : TrainingState()
+    data object Initial : TrainingState()
     data object Start : TrainingState()
 }
 
@@ -26,12 +26,15 @@ class TrainingViewModel @Inject constructor(
     init {
         viewModelScope.launch(appDispatcher.io) {
             val wordCount = wordRepository.getWordsCount()
-            _trainingState.value = TrainingState.Initial(wordCount)
+            _wordCount.value = wordCount
         }
     }
 
-    private val _trainingState = MutableStateFlow<TrainingState>(TrainingState.Initial(0))
+    private val _trainingState = MutableStateFlow<TrainingState>(TrainingState.Initial)
     val trainingState = _trainingState.asStateFlow()
+
+    private val _wordCount = MutableStateFlow(0)
+    val wordCount = _wordCount.asStateFlow()
 
 
     fun startTraining() {
