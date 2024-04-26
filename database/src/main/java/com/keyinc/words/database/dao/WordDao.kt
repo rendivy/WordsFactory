@@ -14,7 +14,11 @@ interface WordDao {
 
     @Transaction
     @Query("SELECT * FROM WordDBO")
-    suspend fun getAllWords() : List<WordWithAllAttributes>?
+    suspend fun getAllWords(): List<WordWithAllAttributes>?
+
+    @Transaction
+    @Query("SELECT * FROM WordDBO WHERE skillRatio < 5")
+    suspend fun getWordsWithLowSkillRatio(): List<WordWithAllAttributes>?
 
     @Transaction
     @Query("SELECT * FROM WordDBO WHERE word = :word")

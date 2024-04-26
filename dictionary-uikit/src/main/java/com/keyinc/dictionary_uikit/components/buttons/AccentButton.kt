@@ -2,7 +2,9 @@ package com.keyinc.dictionary_uikit.components.buttons
 
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -107,6 +109,7 @@ fun OutlinedQuestionButton(
     modifier: Modifier = Modifier,
     letterQuestion: String = "A",
     onClick: () -> Unit = {},
+    border: Dp = 2.dp,
     containerColor: Color = Color.Transparent,
     outlinedColor: Color = InkGray,
     text: String = stringResource(id = R.string.default_accent_button_text)
@@ -124,7 +127,7 @@ fun OutlinedQuestionButton(
     )
 
     val borderWidth by animateDpAsState(
-        targetValue = if (isPressed.value) 2.dp else 1.dp,
+        targetValue = if (isPressed.value) border else 1.dp,
         animationSpec = tween(durationMillis = 500)
     )
 
@@ -170,8 +173,13 @@ fun OutlinedQuestionButton(
 @Composable
 fun CustomProgressBar(
     modifier: Modifier, width: Dp, backgroundColor: Color,
-    foregroundColor: Brush, percent: Int,
+    foregroundColor: Brush, targetPercent: Int,
 ) {
+    val animatedPercent by animateFloatAsState(
+        targetValue = targetPercent.toFloat() / 100, label = "",
+        animationSpec = tween(easing = FastOutLinearInEasing)
+    )
+
     Box(
         modifier = modifier
             .background(backgroundColor)
@@ -180,7 +188,7 @@ fun CustomProgressBar(
         Box(
             modifier = modifier
                 .background(foregroundColor)
-                .width(width * percent / 100)
+                .width(width * animatedPercent)
         )
     }
 }
@@ -277,7 +285,7 @@ private fun AccentButtonPreview() {
             300.dp,
             Color.Gray,
             Brush.horizontalGradient(listOf(Color(0xffF29F3F), Color(0xffEF4949))),
-            65,
+            100,
         )
     }
 }

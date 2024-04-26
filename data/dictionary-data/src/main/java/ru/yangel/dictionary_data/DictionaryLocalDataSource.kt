@@ -33,6 +33,10 @@ internal class DictionaryLocalDataSource @Inject constructor(private val databas
         }
     }
 
+    suspend fun getWordsWithLowSkillRatio(): List<WordWithAllAttributes>? {
+        return database.wordDao.getWordsWithLowSkillRatio()
+    }
+
     suspend fun getAllWordFromLocalStore(): List<WordWithAllAttributes>? {
         return database.wordDao.getAllWords()
     }
