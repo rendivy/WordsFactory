@@ -61,7 +61,7 @@ fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifi
             DictionaryScreen()
         }
         composable(route = BottomBarRoutes.Train.route) {
-            TrainingScreen(wordCount = 10)
+            TrainingScreen()
         }
         composable(route = BottomBarRoutes.Video.route) {
             VideoScreen()

@@ -27,7 +27,7 @@ fun NavController.navigateToTraining(
 
 fun NavGraphBuilder.trainingGraph() {
     composable(route = TRAINING_ROUTE) {
-        TrainingScreen(wordCount = 10)
+        TrainingScreen()
     }
 
 }
