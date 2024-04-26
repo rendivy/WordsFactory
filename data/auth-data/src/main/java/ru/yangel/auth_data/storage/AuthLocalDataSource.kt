@@ -14,6 +14,9 @@ class AuthLocalDataSource @Inject constructor(private val authDataStorage: AuthD
         authDataStorage.setUserLogin(isUserLogin)
     }
 
+    suspend fun setTrainingPassed(isTrainingPassed: Boolean) {
+        authDataStorage.setTrainingPassed(isTrainingPassed)
+    }
 
     suspend fun clear() {
         authDataStorage.clear()

@@ -11,6 +11,8 @@ import dagger.hilt.components.SingletonComponent
 import ru.yangel.auth_data.storage.GoogleAuthClient
 import ru.yangel.auth_data.storage.repository.AuthRepository
 import ru.yangel.auth_data.storage.repository.AuthRepositoryImpl
+import ru.yangel.auth_data.storage.repository.AuthStorageRepository
+import ru.yangel.auth_data.storage.repository.AuthStorageRepositoryImpl
 import ru.yangel.auth_data.storage.storage.AuthDataStorage
 import javax.inject.Singleton
 
@@ -21,6 +23,10 @@ abstract class AuthModule {
 
     @Binds
     internal abstract fun bindsAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    internal abstract fun bindsAuthStorageRepository(
+        authStorageRepository: AuthStorageRepositoryImpl): AuthStorageRepository
 
 }
 

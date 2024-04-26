@@ -7,6 +7,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ru.yangel.auth_data.storage.repository.AuthStorageRepository
 import ru.yangel.core.di.AppDispatchers
 import ru.yangel.dictionary_data.model.QuestionDTO
 import ru.yangel.dictionary_data.repository.QuestionRepository
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class QuestionViewModel @Inject constructor(
     private val questionRepository: QuestionRepository,
+    private val authRepository: AuthStorageRepository,
     private val appDispatchers: AppDispatchers
 ) : ViewModel() {
 
@@ -54,8 +56,7 @@ class QuestionViewModel @Inject constructor(
             if (currentQuestion.correctAnswer == word) {
                 questionList.value[currentQuestionIndex.value].isCorrect = true
                 questionRepository.setSkillRation(currentQuestion, true)
-            }
-            else {
+            } else {
                 questionList.value[currentQuestionIndex.value].isCorrect = false
                 questionRepository.setSkillRation(currentQuestion, false)
             }
@@ -65,10 +66,10 @@ class QuestionViewModel @Inject constructor(
                     questionList.value.count { it.isCorrect },
                     questionList.value.count { !it.isCorrect }
                 )
-            }
-            else {
+            } else {
                 _questionState.value = QuestionState.WordClicked
             }
+            authRepository.setTrainingPassed(true)
         }
     }
 }
