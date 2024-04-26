@@ -7,9 +7,11 @@ import com.yuriyyangel.dictionary_feature.state.DictionaryError
 import com.yuriyyangel.dictionary_feature.state.DictionaryState
 import com.yuriyyangel.dictionary_feature.state.DictionaryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.yangel.core.di.AppDispatchers
 import ru.yangel.dictionary_data.model.WordDTO
 import ru.yangel.dictionary_data.repository.DictionaryRepository
@@ -24,8 +26,8 @@ class DictionaryViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-
-    private val _dictionaryState = MutableStateFlow<DictionaryState>(DictionaryState.Initial)
+    private val _dictionaryState =
+        MutableStateFlow<DictionaryState>(DictionaryState.Initial)
     val dictionaryState = _dictionaryState.asStateFlow()
 
     private val _dictionaryUiState = MutableStateFlow(DictionaryUiState())
@@ -36,16 +38,20 @@ class DictionaryViewModel @Inject constructor(
         if (_dictionaryUiState.value.word.isNotBlank()) {
             _dictionaryState.value = DictionaryState.Loading
             viewModelScope.launch(appDispatchers.io) {
-                try {
-                    _dictionaryState.value = DictionaryState.Success(
-                        dictionaryRepository.getWordWithDefinition(_dictionaryUiState.value.word)
-
-                    )
-                } catch (e: Exception) {
-                    _dictionaryState.value =
-                        DictionaryState.Error(DictionaryError.WORD_NOT_FOUND)
+                val localWord = wordRepository.getWordFromLocalSource(_dictionaryUiState.value.word)
+                if (localWord != null) {
+                    _dictionaryState.value = DictionaryState.Success(listOf(localWord))
+                    return@launch
+                } else {
+                    try {
+                        _dictionaryState.value = DictionaryState.Success(
+                            dictionaryRepository.getWordWithDefinition(_dictionaryUiState.value.word)
+                        )
+                    } catch (e: Exception) {
+                        _dictionaryState.value =
+                            DictionaryState.Error(DictionaryError.WORD_NOT_FOUND)
+                    }
                 }
-
             }
         }
     }
@@ -57,16 +63,28 @@ class DictionaryViewModel @Inject constructor(
     }
 
     fun resetState() {
-        _dictionaryState.value = DictionaryState.Initial
+        viewModelScope.launch(appDispatchers.io) {
+            _dictionaryState.value = DictionaryState.Initial
+        }
     }
 
     fun playAudio(url: String, onCompleteListener: () -> Unit, onStartListener: () -> Unit) {
-        val mediaPlayer = MediaPlayerService(
-            url = url,
-            onCompleteListener = onCompleteListener,
-            onStartListener = onStartListener
-        )
-        mediaPlayer.mediaPlayer.start()
+        viewModelScope.launch {
+            try  {
+                withContext(Dispatchers.IO) {
+                    val mediaPlayer = MediaPlayerService(
+                        url = url,
+                        onCompleteListener = onCompleteListener,
+                        onStartListener = onStartListener
+                    )
+                    mediaPlayer.mediaPlayer.start()
+                }
+            }
+            catch (e: Exception) {
+                _dictionaryState.value =
+                    DictionaryState.Error(DictionaryError.UNEXPECTED_EXCEPTION)
+            }
+        }
     }
 
     fun onChangeWord(word: String) {

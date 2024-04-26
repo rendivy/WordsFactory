@@ -1,0 +1,6 @@
+<resources>
+    <string name="training_label">There are %d words\nin your Dictionary.</string>
+    <string name="start_the_training">Start the Training?</string>
+    <string name="add_some_word">Please, add at least 3 word in dictionary</string>
+
+</resources>

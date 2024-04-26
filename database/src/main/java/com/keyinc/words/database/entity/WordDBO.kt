@@ -11,6 +11,7 @@ data class WordDBO(
     @PrimaryKey
     val word: String,
     val phonetic: String,
+    val skillRatio: Int = 0
 )
 
 

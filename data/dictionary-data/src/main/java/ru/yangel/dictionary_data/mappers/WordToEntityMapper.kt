@@ -14,7 +14,8 @@ class WordToEntityMapper : Mapper<WordDBO, WordDTO> {
     override fun transform(data: WordDTO): WordDBO {
         return WordDBO(
             phonetic = data.phonetic,
-            word = data.word
+            word = data.word,
+            skillRatio = 0
         )
     }
 
