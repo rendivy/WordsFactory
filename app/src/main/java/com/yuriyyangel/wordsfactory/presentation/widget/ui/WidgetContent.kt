@@ -9,7 +9,6 @@ import androidx.annotation.FontRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.TextUnit
@@ -34,7 +33,6 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.width
 import com.keyinc.dictionary_uikit.theme.InkDarkGray
-import com.keyinc.dictionary_uikit.theme.InkLightGray
 import com.keyinc.dictionary_uikit.theme.PaddingLarge
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.PaddingTiny
@@ -44,13 +42,9 @@ import ru.yangel.dictionary_data.observer.WordsObservable
 
 @Composable
 fun WidgetContent(wordsObservable: WordsObservable<Int>) {
-    val wordCount by wordsObservable.state.collectAsState()
-    val gradient = Brush.linearGradient(
-        colors = listOf(
-            PrimaryColor,
-            Color(0xFF65AAEA)
-        )
-    )
+    val wordCount by wordsObservable.wordInDictionaryState.collectAsState()
+    val rememberedCount by wordsObservable.rememberedWordState.collectAsState()
+
     Box(
         modifier = GlanceModifier
             .cornerRadius(20.dp)
@@ -100,7 +94,7 @@ fun WidgetContent(wordsObservable: WordsObservable<Int>) {
                 )
                 Spacer(modifier = GlanceModifier.defaultWeight())
                 GlanceText(
-                    text = "$wordCount Words",
+                    text = "$rememberedCount Words",
                     font = com.keyinc.dictionary_uikit.R.font.rubick_regular,
                     fontSize = 14.sp,
                     color = InkDarkGray,
@@ -121,16 +115,13 @@ fun WidgetContent(wordsObservable: WordsObservable<Int>) {
                 font = com.keyinc.dictionary_uikit.R.font.rubik_medium,
                 fontSize = 30.sp,
                 color = Color.White,
-                modifier = GlanceModifier.padding(top = PaddingTiny, end = PaddingTiny),
+                modifier = GlanceModifier.padding(
+                    top = PaddingTiny,
+                    end = PaddingTiny,
+                    start = PaddingMedium
+                ),
             )
         }
-        GlanceText(
-            text = "WordsFactory",
-            modifier = GlanceModifier.padding(top = PaddingTiny, end = PaddingTiny),
-            fontSize = 30.sp,
-            font = com.keyinc.dictionary_uikit.R.font.rubik_medium,
-            color = InkLightGray
-        )
 
     }
 }

@@ -50,21 +50,23 @@ class QuestionViewModel @Inject constructor(
     fun onAnswerSelected(word: String) {
         viewModelScope.launch {
             delay(500)
-            if (_currentQuestionIndex.value == questionList.value.size - 1) {
+            val currentQuestion = questionList.value[currentQuestionIndex.value]
+            if (currentQuestion.correctAnswer == word) {
+                questionList.value[currentQuestionIndex.value].isCorrect = true
+                questionRepository.setSkillRation(currentQuestion, true)
+            }
+            else {
+                questionList.value[currentQuestionIndex.value].isCorrect = false
+                questionRepository.setSkillRation(currentQuestion, false)
+            }
+            _currentQuestionIndex.value++
+            if (_currentQuestionIndex.value == questionList.value.size) {
                 _questionState.value = QuestionState.QuestionAnswered(
                     questionList.value.count { it.isCorrect },
                     questionList.value.count { !it.isCorrect }
                 )
             }
             else {
-                val currentQuestion = questionList.value[currentQuestionIndex.value]
-                if (currentQuestion.correctAnswer == word) {
-                    questionList.value[currentQuestionIndex.value].isCorrect = true
-                }
-                else {
-                    questionList.value[currentQuestionIndex.value].isCorrect = false
-                }
-                _currentQuestionIndex.value++
                 _questionState.value = QuestionState.WordClicked
             }
         }

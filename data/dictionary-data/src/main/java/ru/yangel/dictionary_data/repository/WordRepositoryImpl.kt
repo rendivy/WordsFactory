@@ -47,7 +47,8 @@ internal class WordRepositoryImpl @Inject constructor(
 
     override suspend fun getWordsCount(): Int {
         val databaseCount = localDataSource.getWordsCount()
-        wordsUpdateObservable.notifyObservers(databaseCount)
+        val rememberedCount = localDataSource.getRememberedWordCount()
+        wordsUpdateObservable.notifyObservers(databaseCount, rememberedCount)
         return localDataSource.getWordsCount()
     }
 
