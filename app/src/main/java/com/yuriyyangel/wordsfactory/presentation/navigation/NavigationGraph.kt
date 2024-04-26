@@ -49,7 +49,7 @@ fun NavigationGraph(startDestination: String = NavigationRoutes.SplashRoute.rout
             }
         )
         trainingGraph()
-        dictionaryGraph()
+        dictionaryGraph(routeNavController = navController)
         onBoardingGraph(
             onNavigateToRegistration = {
                 navController.navigateToRegistration(

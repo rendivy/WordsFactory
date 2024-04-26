@@ -53,7 +53,10 @@ import ru.yangel.training_feature.viewmodel.TrainingState
 import ru.yangel.training_feature.viewmodel.TrainingViewModel
 
 @Composable
-fun TrainingScreen(trainingViewModel: TrainingViewModel = hiltViewModel()) {
+fun TrainingScreen(
+    trainingViewModel: TrainingViewModel = hiltViewModel(),
+    onNavigateToQuestion: () -> Unit
+) {
     val context = LocalContext.current
     val trainingState by trainingViewModel.trainingState.collectAsStateWithLifecycle()
     val wordCount by trainingViewModel.wordCount.collectAsStateWithLifecycle()
@@ -106,7 +109,7 @@ fun TrainingScreen(trainingViewModel: TrainingViewModel = hiltViewModel()) {
             enter = fadeIn() + expandIn(),
             exit = fadeOut() + shrinkOut()
         ) {
-            LoadingScreen()
+            LoadingScreen(onNavigateToQuestion)
         }
     }
 }
@@ -136,7 +139,7 @@ fun TrainingNoWordPlaceHolder() {
 
 @Composable
 @Preview(showBackground = true)
-fun LoadingScreen() {
+fun LoadingScreen(onNavigateToQuestion: () -> Unit = {}) {
     var progress by remember { mutableStateOf(0f) }
 
     val state = when {
@@ -168,6 +171,7 @@ fun LoadingScreen() {
             }
             delay(1000L)
         }
+        onNavigateToQuestion()
     }
 
     Column(

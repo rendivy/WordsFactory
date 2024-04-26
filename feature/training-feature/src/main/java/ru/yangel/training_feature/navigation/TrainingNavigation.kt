@@ -3,9 +3,10 @@ package ru.yangel.training_feature.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ru.yangel.training_feature.screen.TrainingScreen
+import ru.yangel.training_feature.screen.QuestionScreen
 
 private const val TRAINING_ROUTE = "training"
+private const val QUESTION_ROUTE = "question"
 
 fun NavController.navigateToTraining(
     clearBackStack: Boolean = false,
@@ -23,11 +24,9 @@ fun NavController.navigateToTraining(
 }
 
 
-
-
 fun NavGraphBuilder.trainingGraph() {
-    composable(route = TRAINING_ROUTE) {
-        TrainingScreen()
+    composable(route = QUESTION_ROUTE) {
+        QuestionScreen()
     }
 
 }
