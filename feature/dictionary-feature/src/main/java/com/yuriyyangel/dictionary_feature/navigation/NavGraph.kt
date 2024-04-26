@@ -14,6 +14,7 @@ import com.keyinc.dictionary_uikit.components.bottomNavigation.BottomBar
 import com.keyinc.dictionary_uikit.components.bottomNavigation.BottomBarRoutes
 import com.yuriyyangel.dictionary_feature.DictionaryScreen
 import ru.yangel.core.navigation.NavigationRoutes
+import ru.yangel.training_feature.screen.TrainingScreen
 import ru.yangel.video_feature.VideoScreen
 
 fun NavController.navigateToDictionary(
@@ -32,26 +33,33 @@ fun NavController.navigateToDictionary(
 }
 
 
-fun NavGraphBuilder.dictionaryGraph() {
+fun NavGraphBuilder.dictionaryGraph(routeNavController: NavHostController) {
     composable(NavigationRoutes.DictionaryRoute.route) {
-        MainScreen()
+        MainScreen(routeNavController)
     }
-
 }
 
 
 @Composable
-fun MainScreen() {
+fun MainScreen(hostNavController: NavHostController) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomBar(navController = navController) }
     ) {
-        BottomNavGraph(navController = navController, modifier = Modifier.padding(it))
+        BottomNavGraph(
+            navController = navController,
+            modifier = Modifier.padding(it),
+            routeNavController = hostNavController
+        )
     }
 }
 
 @Composable
-fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
+fun BottomNavGraph(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    routeNavController: NavHostController
+) {
     NavHost(
         navController = navController,
         modifier = modifier,
@@ -60,10 +68,14 @@ fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifi
         composable(route = BottomBarRoutes.Dictionary.route) {
             DictionaryScreen()
         }
-        composable(route = BottomBarRoutes.Video.route) {
-            VideoScreen()
-        }
         composable(route = BottomBarRoutes.Train.route) {
+            TrainingScreen(
+                onNavigateToQuestion = {
+                    routeNavController.navigate("question")
+                }
+            )
+        }
+        composable(route = BottomBarRoutes.Video.route) {
             VideoScreen()
         }
     }

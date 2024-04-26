@@ -1,17 +1,24 @@
 package com.keyinc.dictionary_uikit.components.buttons
 
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
@@ -20,20 +27,28 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.keyinc.dictionary_uikit.R
 import com.keyinc.dictionary_uikit.components.rippleEffect.NoRippleTheme
 import com.keyinc.dictionary_uikit.theme.ButtonMedium
+import com.keyinc.dictionary_uikit.theme.ButtonQuestion
 import com.keyinc.dictionary_uikit.theme.InkDark
+import com.keyinc.dictionary_uikit.theme.InkGray
+import com.keyinc.dictionary_uikit.theme.InkLightGray
 import com.keyinc.dictionary_uikit.theme.PaddingMedium
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
@@ -86,6 +101,95 @@ fun OutlinedAccentButton(
                 color = InkDark,
             )
         }
+    }
+}
+
+@Composable
+fun OutlinedQuestionButton(
+    modifier: Modifier = Modifier,
+    letterQuestion: String = "A",
+    onClick: () -> Unit = {},
+    border: Dp = 2.dp,
+    containerColor: Color = Color.Transparent,
+    outlinedColor: Color = InkGray,
+    text: String = stringResource(id = R.string.default_accent_button_text)
+) {
+    val isPressed = remember { mutableStateOf(false) }
+
+    val buttonColor by animateColorAsState(
+        targetValue = if (isPressed.value) InkLightGray else containerColor,
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    val borderColor by animateColorAsState(
+        targetValue = if (isPressed.value) PrimaryColor else outlinedColor,
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    val borderWidth by animateDpAsState(
+        targetValue = if (isPressed.value) border else 1.dp,
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        OutlinedButton(
+            onClick = {
+                isPressed.value = !isPressed.value
+                onClick()
+            },
+            modifier = modifier
+                .fillMaxWidth()
+                .border(borderWidth, borderColor, RoundedCornerShape(PaddingMedium)),
+            colors = ButtonDefaults.outlinedButtonColors(
+                containerColor = buttonColor,
+            ),
+            shape = RoundedCornerShape(PaddingMedium)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    text = "$letterQuestion.",
+                    modifier = Modifier
+                        .padding(top = 12.dp, bottom = 12.dp),
+                    style = ButtonQuestion,
+                    color = InkDark,
+                )
+                Text(
+                    text = text,
+                    modifier = Modifier
+                        .padding(top = 12.dp, bottom = 12.dp, start = 16.dp)
+                        .fillMaxWidth(),
+                    style = ButtonQuestion,
+                    color = InkDark,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CustomProgressBar(
+    modifier: Modifier, width: Dp, backgroundColor: Color,
+    foregroundColor: Brush, targetPercent: Int,
+) {
+    val animatedPercent by animateFloatAsState(
+        targetValue = targetPercent.toFloat() / 100, label = "",
+        animationSpec = tween(easing = FastOutLinearInEasing)
+    )
+
+    Box(
+        modifier = modifier
+            .background(backgroundColor)
+            .width(width)
+    ) {
+        Box(
+            modifier = modifier
+                .background(foregroundColor)
+                .width(width * animatedPercent)
+        )
     }
 }
 
@@ -165,6 +269,23 @@ private fun AccentButtonPreview() {
                 start = PaddingMedium,
                 end = PaddingMedium
             )
+        )
+        Spacer(modifier = Modifier.height(PaddingMedium))
+        OutlinedQuestionButton(
+            modifier = Modifier.padding(
+                start = PaddingMedium,
+                end = PaddingMedium
+            )
+        )
+        Spacer(modifier = Modifier.height(PaddingMedium))
+        CustomProgressBar(
+            Modifier
+                .clip(shape = RoundedCornerShape(PaddingSmall))
+                .height(6.dp),
+            300.dp,
+            Color.Gray,
+            Brush.horizontalGradient(listOf(Color(0xffF29F3F), Color(0xffEF4949))),
+            100,
         )
     }
 }

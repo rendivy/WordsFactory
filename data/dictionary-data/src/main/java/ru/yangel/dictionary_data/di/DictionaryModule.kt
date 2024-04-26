@@ -8,6 +8,8 @@ import ru.yangel.dictionary_data.observer.WordsObservable
 import ru.yangel.dictionary_data.observer.WordsUpdateObservable
 import ru.yangel.dictionary_data.repository.DictionaryRepository
 import ru.yangel.dictionary_data.repository.DictionaryRepositoryImpl
+import ru.yangel.dictionary_data.repository.QuestionRepository
+import ru.yangel.dictionary_data.repository.QuestionRepositoryImpl
 import ru.yangel.dictionary_data.repository.WordRepository
 import ru.yangel.dictionary_data.repository.WordRepositoryImpl
 
@@ -17,13 +19,16 @@ import ru.yangel.dictionary_data.repository.WordRepositoryImpl
 abstract class DictionaryModule {
 
     @Binds
-    internal abstract fun dictionaryRepositoryBinds(dictionaryRepositoryImpl: DictionaryRepositoryImpl) : DictionaryRepository
+    internal abstract fun dictionaryRepositoryBinds(dictionaryRepositoryImpl: DictionaryRepositoryImpl): DictionaryRepository
 
     @Binds
-    internal abstract fun wordRepositoryBinds(dictionaryRepositoryImpl: WordRepositoryImpl) : WordRepository
+    internal abstract fun wordRepositoryBinds(dictionaryRepositoryImpl: WordRepositoryImpl): WordRepository
 
     @Binds
-    internal abstract fun wordsUpdateObservableBinds(wordsUpdateObservable: WordsUpdateObservable) : WordsObservable<Int>
+    internal abstract fun questionRepositoryBinds(questionRepositoryImpl: QuestionRepositoryImpl): QuestionRepository
+
+    @Binds
+    internal abstract fun wordsUpdateObservableBinds(wordsUpdateObservable: WordsUpdateObservable): WordsObservable<Int>
 }
 
 

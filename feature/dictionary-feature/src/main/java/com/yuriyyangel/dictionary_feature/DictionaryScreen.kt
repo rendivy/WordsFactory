@@ -1,5 +1,6 @@
 package com.yuriyyangel.dictionary_feature
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +54,7 @@ import com.keyinc.dictionary_uikit.theme.PaddingSemiMeduim
 import com.keyinc.dictionary_uikit.theme.PaddingSmall
 import com.keyinc.dictionary_uikit.theme.ParagraphMedium
 import com.keyinc.dictionary_uikit.theme.PrimaryColor
+import com.yuriyyangel.dictionary_feature.state.DictionaryError
 import com.yuriyyangel.dictionary_feature.state.DictionaryState
 import com.yuriyyangel.dictionary_feature.utils.convertToPhoneticFormat
 import com.yuriyyangel.dictionary_feature.viewmodel.DictionaryViewModel
@@ -63,10 +66,10 @@ import ru.yangel.dictionary_data.model.WordDTO
 fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
     val dictionaryState = viewModel.dictionaryState.collectAsStateWithLifecycle()
     val dictionaryUiState by viewModel.dictionaryUiState.collectAsStateWithLifecycle()
-
+    val context = LocalContext.current
     val snackBarHostState = remember { SnackbarHostState() }
     var snackBarLauncher by remember { mutableStateOf(false) }
-    val snackBarMessage = "Word not found"
+    var snackBarMessage by remember { mutableStateOf("") }
 
     if (snackBarLauncher) {
         LaunchedEffect(snackBarMessage) {
@@ -107,6 +110,15 @@ fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
             }
 
             is DictionaryState.Error -> {
+                val errorType = ((dictionaryState.value) as DictionaryState.Error).errorMessage
+                snackBarMessage = when (errorType) {
+                    DictionaryError.WORD_NOT_FOUND -> {
+                        "Word not found"
+                    }
+                    DictionaryError.UNEXPECTED_EXCEPTION -> {
+                        "Unexpected error occurred"
+                    }
+                }
                 snackBarLauncher = true
                 viewModel.resetState()
             }
@@ -124,13 +136,17 @@ fun DictionaryScreen(viewModel: DictionaryViewModel = hiltViewModel()) {
 
             is DictionaryState.Success -> {
                 val content = ((dictionaryState.value) as DictionaryState.Success).data
-
                 WordScreen(
                     word = content[0],
                     modifier = Modifier.padding(it),
                     viewModel = viewModel,
                     onSaveWord = {
                         viewModel.saveWord(content[0])
+                        Toast.makeText(
+                            context,
+                            "Word saved successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 )
             }
@@ -271,6 +287,91 @@ private fun WordScreen(
                 onClick = onSaveWord,
                 modifier = Modifier.padding(16.dp)
             )
+        }
+    }
+}
+
+
+@Composable
+fun LocalWordScreenPreview(
+    modifier: Modifier = Modifier,
+    list: List<WordDTO> = emptyList(),
+    viewModel: DictionaryViewModel
+) {
+    val audioIsPlaying = remember { mutableStateOf(false) }
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        items(list.size) {
+            Row(
+                modifier = Modifier
+                    .padding(start = 16.dp, bottom = 16.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    text = list[it].word.replaceFirstChar { char -> char.titlecaseChar() },
+                    style = Heading1,
+                )
+                Row(modifier = Modifier.padding(start = 16.dp)) {
+                    list[it].phonetics.forEach {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            if (it.audio.isNotEmpty()) {
+                                Text(
+                                    text = it.text.convertToPhoneticFormat(),
+                                    style = ParagraphMedium,
+                                    color = PrimaryColor,
+                                    modifier = Modifier
+                                        .padding(end = 4.dp)
+                                )
+                                IconButton(
+                                    onClick = {
+                                        if (!audioIsPlaying.value) {
+                                            viewModel.playAudio(
+                                                url = it.audio,
+                                                onCompleteListener = {
+                                                    audioIsPlaying.value = false
+                                                },
+                                                onStartListener = { audioIsPlaying.value = true }
+                                            )
+                                        }
+                                    },
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.sound_ic),
+                                        tint = PrimaryColor,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .padding(start = 16.dp, bottom = 16.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(text = "Part of Speech:", style = Heading2)
+                Text(
+                    text = list[it].meanings[0].partOfSpeech.replaceFirstChar { char -> char.titlecaseChar() },
+                    style = ParagraphMedium,
+                    color = InkDark,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
         }
     }
 }
