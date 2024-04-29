@@ -76,7 +76,10 @@ fun OnBoardingScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        CustomTextButton(modifier = Modifier.align(Alignment.TopEnd))
+        CustomTextButton(
+            modifier = Modifier.align(Alignment.TopEnd),
+            onClick = { viewModel.passOnBoarding(); onNavigateToRegistration() }
+        )
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,

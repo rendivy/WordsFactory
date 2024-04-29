@@ -1,14 +1,14 @@
 package com.keyinc.words.database.entity
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
 
-@Entity(indices = [Index(value = ["id"], unique = true)])
+@Entity
 data class MeaningDBO(
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val wordId: String,
     val partOfSpeech: String,
 )
 

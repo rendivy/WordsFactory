@@ -2,16 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="SplashScreen">
+      <entry key="LoadingScreen">
         <State />
       </entry>
-      <entry key="VideoScreen">
+      <entry key="LoadingScreen (1)">
         <State />
       </entry>
-      <entry key="VideoScreen (1)">
+      <entry key="QuestionScreen">
         <State />
       </entry>
-      <entry key="VideoScreen (2)">
+      <entry key="WidgetPreview">
         <State />
       </entry>
       <entry key="app">

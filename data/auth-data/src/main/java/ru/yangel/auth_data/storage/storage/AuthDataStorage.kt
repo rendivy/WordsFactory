@@ -15,6 +15,26 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class AuthDataStorage(private val context: Context) {
 
     private val USER_PREFS_KEY = booleanPreferencesKey("is_user_exists")
+    private val TRAINING_PREFS_KEY = booleanPreferencesKey("is_training_passed_today")
+
+    suspend fun setTrainingPassed(isTrainingPassed: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[TRAINING_PREFS_KEY] = isTrainingPassed
+        }
+    }
+
+    fun isTrainingPassed(): Flow<Boolean> {
+        return context.dataStore.data.map { preferences ->
+            preferences[TRAINING_PREFS_KEY] ?: false
+        }
+    }
+
+    suspend fun resetTrainingPassed() {
+        context.dataStore.edit { preferences ->
+            preferences[TRAINING_PREFS_KEY] = false
+        }
+    }
+
 
     fun isOnboardingPassed(): Flow<Boolean> {
         return context.dataStore.data.map { preferences ->

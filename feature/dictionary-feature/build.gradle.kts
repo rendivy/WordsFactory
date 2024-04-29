@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:video-feature"))
+    implementation(project(":feature:training-feature"))
     implementation(project(":dictionary-uikit"))
     implementation(project(":data:dictionary-data"))
     implementation(project(":core"))
@@ -60,7 +62,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.material)
-    implementation(project(":feature:video-feature"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
