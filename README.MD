@@ -90,3 +90,8 @@ The project is divided into 14 modules:
   <img src="readme-package/screenshot/video.png" width="200" hspace="5" vspace ="10" align="center" hspace="50">
 </p>
 
+
+#### Widget Section
+<p>
+  <img src="readme-package/screenshot/widget.png" width="200" hspace="5" vspace ="10" align="center" hspace="50">
+</p>
