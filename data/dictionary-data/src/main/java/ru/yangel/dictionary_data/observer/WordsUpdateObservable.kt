@@ -17,6 +17,5 @@ class WordsUpdateObservable @Inject constructor() : WordsObservable<Int> {
     override suspend fun notifyObservers(value: Int, rememberedCount: Int) {
         mutableState.value = value
         _rememberedWordState.value = rememberedCount
-
     }
 }
