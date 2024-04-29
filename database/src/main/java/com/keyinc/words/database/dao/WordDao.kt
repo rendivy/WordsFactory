@@ -20,12 +20,18 @@ interface WordDao {
     @Query("SELECT * FROM WordDBO WHERE skillRatio < 5")
     suspend fun getWordsWithLowSkillRatio(): List<WordWithAllAttributes>?
 
+    @Query("SELECT COUNT(*) FROM WordDBO WHERE skillRatio >= 5")
+    suspend fun getRememberedWordsCount() : Int
+
     @Transaction
     @Query("SELECT * FROM WordDBO WHERE word = :word")
     suspend fun getWordWithMeanings(word: String): WordWithAllAttributes?
 
     @Query("SELECT COUNT(*) FROM WordDBO")
     suspend fun getWordsCount(): Int
+
+    @Query("SELECT * FROM WordDBO WHERE word = :word")
+    suspend fun getWord(word: String): WordDBO?
 
     @Query("DELETE FROM WordDBO WHERE word = :word")
     suspend fun deleteWord(word: String)

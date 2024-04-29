@@ -161,7 +161,7 @@ fun LoadingScreen(onNavigateToQuestion: () -> Unit = {}) {
     }
 
     LaunchedEffect(Unit) {
-        while (progress < 0.2f) {
+        while (progress < 1.2f) {
             animate(
                 initialValue = progress,
                 targetValue = progress + 0.20f,

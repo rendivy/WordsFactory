@@ -29,4 +29,18 @@ internal class QuestionRepositoryImpl @Inject constructor(
             QuestionMapper.map(wordDTO, answers)
         }
     }
+
+    override suspend fun setSkillRation(word: QuestionDTO, isCorrect: Boolean) {
+        val wordWithMeaning = localDataSource.getWord(word.correctAnswer)
+        if (wordWithMeaning != null) {
+            val newSkillRatio = if (isCorrect) {
+                wordWithMeaning.skillRatio + 1
+            } else {
+                wordWithMeaning.skillRatio - 1
+            }
+            localDataSource.updateWordRatio(wordWithMeaning.copy(skillRatio = newSkillRatio))
+        }
+    }
+
+
 }

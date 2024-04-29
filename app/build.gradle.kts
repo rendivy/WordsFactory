@@ -62,6 +62,7 @@ dependencies {
     implementation(project(":feature:splash-feature"))
     implementation(project(":feature:training-feature"))
     implementation(project(":data:dictionary-data"))
+    implementation(project(":data:auth-data"))
     implementation(project(":feature:widget-feature"))
     implementation(project(":feature:onboarding-feature"))
     implementation(project(":dictionary-api"))

@@ -9,9 +9,13 @@ import javax.inject.Singleton
 class WordsUpdateObservable @Inject constructor() : WordsObservable<Int> {
 
     private val mutableState = MutableStateFlow(0)
-    override val state: StateFlow<Int> = mutableState
+    override val wordInDictionaryState: StateFlow<Int> = mutableState
 
-    override suspend fun notifyObservers(value: Int) {
+    private val _rememberedWordState = MutableStateFlow(0)
+    override val rememberedWordState: StateFlow<Int> = _rememberedWordState
+
+    override suspend fun notifyObservers(value: Int, rememberedCount: Int) {
         mutableState.value = value
+        _rememberedWordState.value = rememberedCount
     }
 }

@@ -4,8 +4,9 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface WordsObservable<T> {
 
-    val state: StateFlow<T>
+    val wordInDictionaryState: StateFlow<T>
+    val rememberedWordState: StateFlow<T>
 
-    suspend fun notifyObservers(value: T)
+    suspend fun notifyObservers(value: T, rememberedCount: T)
 }
 
