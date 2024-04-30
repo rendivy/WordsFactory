@@ -1,6 +1,6 @@
 # WordsFactory
 
-<img src="readme-package/logo.png" height = "220" align="right" hspace="50">
+<img src="readme-package/logo.png" height = "140" align="right" hspace="50">
 
 ### Expand your lexicon effortlessly
 
